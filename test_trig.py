@@ -6,7 +6,7 @@ import atexit
 ### Function to define exit behavior (cleanup pins)
 def exit_handler():
 	GPIO.cleanup()
-    print('  Pins Cleaned.')
+	print('  Pins Cleaned.')
 
 # Load funciton for exit handler
 atexit.register(exit_handler)
@@ -40,8 +40,6 @@ while True:
 		if channel is not None:
 			print('  Frame ', total_frames)
 			total_frames += 1
-
-
 		else:
 			print('  Program Finished.')
 			print('Total Frames: ', total_frames)
