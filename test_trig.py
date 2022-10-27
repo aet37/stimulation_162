@@ -69,7 +69,7 @@ def stim_trig():
 	while True:
 		if stim_now.is_set():
 			print('Stim Starting...')
-			stim_now.clear():
+			stim_now.clear()
 		else:
 			continue
 
