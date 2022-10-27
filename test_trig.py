@@ -11,7 +11,7 @@ GPIO.setup(input_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # internal pull down
 GPIO.setup(trigger_pin, GPIO.OUT) # internal pull down
 
 total_frames = 0
-first_frame = true
+first_frame = True
 
 # Loop Raspi to listen for frames
 while True:
@@ -32,7 +32,7 @@ while True:
 			if not first_frame:
 				total_frames += 1
 			else:
-				first_frame = false
+				first_frame = False
 
 		else:
 			print('  Program Finished.')
