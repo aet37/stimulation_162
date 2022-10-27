@@ -84,6 +84,12 @@ def stim_trig():
 		if stim_now.is_set():
 			print('Stim Starting...')
 
+			for i in range(duration):
+				for j in range(frequency):
+					GPIO.output(trigger_pin, 1)
+					time.sleep(pulse_width/1000)
+					GPIO.output(trigger_pin, 0)
+					time.sleep((1/frequency) - (pulse_width/1000))
 
 
 			stim_now.clear()
