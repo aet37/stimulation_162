@@ -1,7 +1,17 @@
 # Import Library to control RasPi GPIO
 import RPi.GPIO as GPIO
 import time
+import atexit
 
+### Function to define exit behavior (cleanup pins)
+def exit_handler():
+	GPIO.cleanup()
+    print('  Pins Cleaned.')
+
+# Load funciton for exit handler
+atexit.register(exit_handler)
+
+# Define pins
 input_pin = 11
 trigger_pin = 13
 
