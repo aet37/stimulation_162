@@ -21,7 +21,7 @@ while True:
 		print('Camera Acquisition Started ...')
 	else:
 		# Check if program done
-		if GPIO.input(input_pin) == 0
+		if GPIO.input(input_pin) == 0:
 			time.sleep(0.02)
 			print('  Program Finished.')
 			print('Total Frames: ', total_frames)
