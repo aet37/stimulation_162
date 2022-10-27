@@ -2,8 +2,8 @@
 import RPi.GPIO as GPIO
 import time
 
-input_pin = 2
-trigger_pin = 4
+input_pin = 3
+trigger_pin = 5
 
 # Set up trigger input GPIO
 GPIO.setmode(GPIO.BOARD)
