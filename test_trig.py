@@ -1,12 +1,6 @@
 # Import Library to control RasPi GPIO
 import RPi.GPIO as GPIO
 import time
-import atexit
-
-### Function to define exit behavior (cleanup pins)
-def exit_handler():
-	GPIO.cleanup()
-	print('  Pins Cleaned.')
 
 # Load funciton for exit handler
 atexit.register(exit_handler)
@@ -45,15 +39,3 @@ while True:
 			print('Total Frames: ', total_frames)
 			GPIO.cleanup()
 			break
-
-
-'''
-	else:
-		# Check if program done
-		if GPIO.input(input_pin) == 0:
-		else
-			# Count the edges
-			channel = GPIO.wait_for_edge(input_pin, GPIO.FALLING, timeout=5000)
-			total_frames += 1
-			print('  Frame')
-'''
