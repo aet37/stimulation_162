@@ -7,14 +7,21 @@ from threading import Thread, Event
 input_pin = 11
 trigger_pin = 13
 
-# Stimulation Parameters (in frames)
+# Stimulation Start Parameters (in frames)
 noff = 5
 nimtr = 10
 ntr = 5
 
+# Stimulation Parameters (in units of time)
+duration = 1 		# In seconds
+frequency = 5 		# In Hz
+pulse_width = 10 	# In ms
+
 # Define the events
 stim_now = Event()
 stim_now.clear()
+img_done = Event()
+img_done.clear()
 
 # Function to count the frames taken
 def listen_2P_frames():
@@ -61,15 +68,26 @@ def listen_2P_frames():
 			else:
 				print('  Program Finished.')
 				print('Total Frames: ', total_frames)
+				img_done.set()
 				#GPIO.cleanup()
 				break
 
 # Function to trigger the simulus
 def stim_trig():
 	while True:
+
+		# If imaging is done, return
+		if img_done.is_set():
+			return None
+
+		# If signal to simulat is set, send stimulation pulses
 		if stim_now.is_set():
 			print('Stim Starting...')
+
+
+
 			stim_now.clear()
+		# Take no action otherwise
 		else:
 			continue
 
