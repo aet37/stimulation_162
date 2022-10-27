@@ -1,7 +1,7 @@
 # Import Library to control RasPi GPIO
 import RPi.GPIO as GPIO
 import time
-from threading import Thread
+from threading import Thread, Event
 
 # Define pins
 input_pin = 11
@@ -11,6 +11,10 @@ trigger_pin = 13
 noff = 5
 nimtr = 10
 ntr = 5
+
+# Define the events
+stim_now = Event()
+stim_now.clear()
 
 # Function to count the frames taken
 def listen_2P_frames():
@@ -51,13 +55,24 @@ def listen_2P_frames():
 				print('  Frame ', total_frames)
 
 				if total_frames in stim_frames:	# Check if stimulation is needed
-					print('Stim Start')
+					stim_now.set()
+					#print('Stim Start')
 
 			else:
 				print('  Program Finished.')
 				print('Total Frames: ', total_frames)
 				#GPIO.cleanup()
 				break
+
+# Function to trigger the simulus
+def stim_trig():
+	while True:
+		if stim_now.is_set():
+			print('Stim Starting...')
+			stim_now.clear():
+		else:
+			continue
+
 
 
 if __name__ == "__main__":
@@ -67,9 +82,18 @@ if __name__ == "__main__":
 	GPIO.setup(input_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # internal pull down
 	GPIO.setup(trigger_pin, GPIO.OUT) # internal pull down
 
-	listen_2P_frames()
+	# Define the 2 threads
+	listen_thread = Thread(target=listen_2P_frames)
+	stim_thread = Thread(target=stim_trig)
 
-	#listen_thread = Thread(target=listen_2P_frames)
+	# Start the threads
+	listen_thread.start()
+	stim_thread.start()
 
+	# Join the threads to end program
+	stim_thread.join()
+
+	# Cleanup the GPIO
 	GPIO.cleanup()
+	print('GPIO Clean.')
 
