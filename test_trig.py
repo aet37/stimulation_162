@@ -2,9 +2,6 @@
 import RPi.GPIO as GPIO
 import time
 
-# Load funciton for exit handler
-atexit.register(exit_handler)
-
 # Define pins
 input_pin = 11
 trigger_pin = 13
