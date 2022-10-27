@@ -23,6 +23,7 @@ while True:
 		started = True
 		total_frames += 1
 		print('Camera Acquisition Started ...')
+		print('  Frame ', total_frames)
 
 	else:
 		# Count the edges
