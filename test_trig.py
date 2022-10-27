@@ -18,6 +18,7 @@ while True:
 	# Watit for Acquisition to start if no frames
 	if total_frames == 0:
 		GPIO.wait_for_edge(input_pin, GPIO.RISING)
+		total_frames += 1
 		print('Camera Acquisition Started ...')
 	else:
 		# Check if program done
