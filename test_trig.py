@@ -38,8 +38,8 @@ while True:
 		channel = GPIO.wait_for_edge(input_pin, GPIO.RISING, timeout=5000)
 
 		if channel is not None:
-			print('  Frame ', total_frames)
 			total_frames += 1
+			print('  Frame ', total_frames)
 		else:
 			print('  Program Finished.')
 			print('Total Frames: ', total_frames)
