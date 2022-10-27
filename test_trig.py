@@ -7,17 +7,12 @@ from threading import Thread
 input_pin = 11
 trigger_pin = 13
 
-
-# Function to check for stimulus
-def check_stim(curr_frame, noff, nimtr, ntr):
-	return None
-
 # Stimulation Parameters (in frames)
 noff = 5
 nimtr = 10
 ntr = 5
 
-
+# Function to count the frames taken
 def listen_2P_frames():
 	'''
 	# Set up trigger input GPIO
@@ -28,6 +23,13 @@ def listen_2P_frames():
 
 	total_frames = 0
 	started = False
+
+	# Compute frames we need to stimulate on
+	stim_frames = []
+	for i in range(1, ntr + 1):
+		stim_frames.append(noff + nimtr*(i-1) + 1)
+
+	print(stim_frames)
 
 	# Loop Raspi to listen for frames
 	while True:
@@ -48,10 +50,13 @@ def listen_2P_frames():
 				total_frames += 1
 				print('  Frame ', total_frames)
 
+				if total_frames in stim_frames:	# Check if stimulation is needed
+					print('Stim Start')
+
 			else:
 				print('  Program Finished.')
 				print('Total Frames: ', total_frames)
-				GPIO.cleanup()
+				#GPIO.cleanup()
 				break
 
 
@@ -63,4 +68,8 @@ if __name__ == "__main__":
 	GPIO.setup(trigger_pin, GPIO.OUT) # internal pull down
 
 	listen_2P_frames()
+
+	#listen_thread = Thread(target=listen_2P_frames)
+
+	GPIO.cleanup()
 
