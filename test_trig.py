@@ -20,13 +20,28 @@ while True:
 		GPIO.wait_for_edge(input_pin, GPIO.RISING)
 		total_frames += 1
 		print('Camera Acquisition Started ...')
+
+	else:
+		# Count the edges
+		channel = GPIO.wait_for_edge(input_pin, GPIO.FALLING, timeout=5000)
+		total_frames += 1
+
+		if channel is not None:
+			print('  Frame')
+		else:
+			print('  Program Finished.')
+			print('Total Frames: ', total_frames)
+			GPIO.cleanup()
+			break
+
+
+'''
 	else:
 		# Check if program done
 		if GPIO.input(input_pin) == 0:
-			time.sleep(0.02)
-			print('  Program Finished.')
-			print('Total Frames: ', total_frames)
-		# Count the edges
-		GPIO.wait_for_edge(input_pin, GPIO.FALLING)
-		total_frames += 1
-		print('  Frame')
+		else
+			# Count the edges
+			channel = GPIO.wait_for_edge(input_pin, GPIO.FALLING, timeout=5000)
+			total_frames += 1
+			print('  Frame')
+'''
