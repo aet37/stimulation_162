@@ -32,7 +32,7 @@ while True:
 		if channel is not None:
 			total_frames += 1
 			print('  Frame ', total_frames)
-			time.sleep(0.02)
+			time.sleep(0.2)
 		else:
 			print('  Program Finished.')
 			print('Total Frames: ', total_frames)
