@@ -78,6 +78,7 @@ def stim_trig():
 
 		# If imaging is done, return
 		if img_done.is_set():
+			img_done.clear()
 			return None
 
 		# If signal to simulat is set, send stimulation pulses
