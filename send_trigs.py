@@ -115,7 +115,7 @@ def exit_monitor():
 			print (' ')
 			quit()
 
-		img_done.is_set():
+		if img_done.is_set():
 			break
 
 	time.sleep(0.5)
