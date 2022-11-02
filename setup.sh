@@ -16,7 +16,7 @@ DIR_PATH=$(pwd)
 pip3 install -r requirements.txt
 
 # Insert the alias to run stimulation into the raspi bash file
-sudo echo "alias stim=\"python3 ${DIR_PATH}/send_trigs.py\"" >> ~/.bashrc
+sudo echo "alias stim=\"sudo python3 ${DIR_PATH}/send_trigs.py\"" >> ~/.bashrc
 
 # Insert the alias to help with command to run stimulation in bash file
 sudo echo "alias help-stim=\"sh ${DIR_PATH}/help.sh\"" >> ~/.bashrc
