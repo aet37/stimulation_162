@@ -41,8 +41,9 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 
 	print('  Stimulus delivered at frames: ', stim_frames)
 	print(' ')
-	print(' NOTE: IF YOU WANT TO TERMINATE PROGRAM PLEASE HOLD \'c\' AND \'z\' KEYS')
-	print('   [cntrl]+z will cause unclean exit')
+	print(' NOTE: IF YOU WANT TO TERMINATE PROGRAM PLEASE HOLD \'c\' AND \'z\' KEYS followed by [cntrl] + z')
+	print('   using only [cntrl]+z will cause unclean exit')
+	print(' ')
 	print('______________________________')
 
 	# Loop Raspi to listen for frames
