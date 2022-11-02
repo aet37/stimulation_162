@@ -108,7 +108,7 @@ def stim_trig(duration, frequency, pulse_width):
 ###################################################################################################
 ## Function to monitor the keyboard for an exit signal to do clean exit
 ###################################################################################################
-def exit_monitor:
+def exit_monitor():
 	while True:
 		# Exit program cleanly (clear GPIO) if 'c' and 'z' are pressed at same time
 		if keyboard.is_pressed('c') and keyboard.is_pressed('z'):
