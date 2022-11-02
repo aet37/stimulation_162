@@ -23,9 +23,12 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 	print('  nimtr = ', nimtr)
 	print('  ntr = ', ntr)
 	print(' ')
+	print('  Stimulus Duration: ', dur, 's')
+	print('  Stimulus Rrequency: ', freq, 'Hz')
+	print('  Pulse Width of Stimulus: ', pw, 'ms')
+	print(' ')
 	print('  Acquisition Time: ', round((noff + (nimtr*ntr)) * img_freq, 1), ' min')
 	print(' ')
-	time.sleep(0.1)	# Give thread 2 time to print stimulation parmaeters
 
 	# Set up counting variables
 	total_frames = 0
@@ -75,16 +78,10 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 ###################################################################################################
 def stim_trig(duration, frequency, pulse_width):
 
-	# Print the stimulus parmaters to confirm
-	print('  Stimulus Duration: ', duration, 's')
-	print('  Stimulus Rrequency: ', frequency, 'Hz')
-	print('  Pulse Width of Stimulus: ', pulse_width, 'ms')
-
 	while True:
 
 		# If imaging is done, return
 		if img_done.is_set():
-			img_done.clear()
 			return None
 
 		# If signal to simulat is set, send stimulation pulses
@@ -116,8 +113,13 @@ def exit_monitor():
 			print(' ')
 			print('TERMINATED STIM PROGRAM.')
 			print (' ')
-			raise RuntimeError
 			quit()
+
+		img_done.is_set():
+			break
+
+	time.sleep(0.5)
+	img_done.clear()
 
 ###################################################################################################
 ## Main function to call frame count and stimulation manager functions
@@ -168,6 +170,12 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 	input_pin = inpin
 	trigger_pin = trigpin
 
+	# Make duration, freq, pulse width global for easy printout
+	global dur, freq, pw
+	dur = duration
+	freq = frequency
+	pw = pulse_width
+
 	# Error check to make sure that stimulus parameters are valid
 	if (noff < 0) or (nimtr < 1) or (ntr < 0):
 		print('')
@@ -208,7 +216,6 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 	# Start the threads
 	listen_thread.start()
 	exit_tread.start()
-	time.sleep(0.1)			# Give thread 1 time to print imaging parameters
 	stim_thread.start()
 
 	# Join the threads to end program
