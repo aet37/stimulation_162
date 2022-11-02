@@ -10,15 +10,6 @@ from threading import Thread, Event
 	@AUTHORS Andrew T. (aet37 atpitt), Adiya R.
 	@PURPOSE For NeuroImaging Lab, 2 Photon system in room 162
 '''
-###################################################################################################
-## Function to exit cleanly from the program
-###################################################################################################
-def exit_stim_program():
-	GPIO.cleanup()
-	print(' ')
-	print('TERMINATED STIM PROGRAM.')
-	print (' ')
-	raise RuntimeError
 
 ###################################################################################################
 ## Function to count the frames taken
@@ -50,19 +41,15 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 	print(' NOTE: IF YOU WANT TO TERMINATE PROGRAM PLEASE HOLD \'c\' AND \'z\' KEYS')
 	print('   [cntrl]+z will cause unclean exit')
 	print('______________________________')
-	print('  Waiting for Camera Acquisition ...')
-	print(' ')
 
 	# Loop Raspi to listen for frames
 	while True:
 
-		# Exit program cleanly (clear GPIO) if 'c' and 'z' are pressed at same time
-		if keyboard.is_pressed('c') and keyboard.is_pressed('z'):
-			exit_stim_program()
-
 		# Watit for Acquisition to start if no frames
 		if not started:
 			GPIO.wait_for_edge(input_pin, GPIO.RISING)
+			print('  Waiting for Camera Acquisition ...')
+			print(' ')
 			started = True
 			total_frames += 1
 			print('  Camera Acquisition Started.')
@@ -119,9 +106,22 @@ def stim_trig(duration, frequency, pulse_width):
 			continue
 
 ###################################################################################################
+## Function to monitor the keyboard for an exit signal to do clean exit
+###################################################################################################
+def exit_monitor:
+	while True:
+		# Exit program cleanly (clear GPIO) if 'c' and 'z' are pressed at same time
+		if keyboard.is_pressed('c') and keyboard.is_pressed('z'):
+			GPIO.cleanup()
+			print(' ')
+			print('TERMINATED STIM PROGRAM.')
+			print (' ')
+			raise RuntimeError
+
+###################################################################################################
 ## Main function to call frame count and stimulation manager functions
 ###################################################################################################
-def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, input_pin=11, trigger_pin=13):
+def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin=11, trigpin=13):
 	'''
 
 	run_trig: Function to sychronize frame acquisitions with stimulus delivery. For use in RasPi. Written for room 162.
@@ -157,9 +157,15 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, input
 	duration = int(duration)
 	frequency = int(frequency)
 	pulse_width = int(pulse_width)
-	input_pin = int(input_pin)
-	trigger_pin = int(trigger_pin)
+	inpin = int(inpin)
+	trigpin = int(trigpin)
 	img_freq = int(img_freq)
+
+	# Make input and trigger pins global variables
+	global input_pin
+	global trigger_pin
+	input_pin = inpin
+	trigger_pin = trigpin
 
 	# Error check to make sure that stimulus parameters are valid
 	if (noff < 0) or (nimtr < 1) or (ntr < 0):
@@ -196,14 +202,17 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, input
 	# Define the 2 threads
 	listen_thread = Thread(target=listen_2P_frames, args=[noff, ntr, nimtr, img_freq])
 	stim_thread = Thread(target=stim_trig, args=[duration, frequency, pulse_width])
+	exit_tread = Thread(target=exit_monitor)
 
 	# Start the threads
 	listen_thread.start()
+	exit_tread.start()
 	time.sleep(0.1)			# Give thread 1 time to print imaging parameters
 	stim_thread.start()
 
 	# Join the threads to end program
 	stim_thread.join()
+	exit_tread.join()
 
 	# Cleanup the GPIO
 	GPIO.cleanup()
