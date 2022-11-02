@@ -47,9 +47,9 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 
 		# Watit for Acquisition to start if no frames
 		if not started:
-			GPIO.wait_for_edge(input_pin, GPIO.RISING)
 			print('  Waiting for Camera Acquisition ...')
 			print(' ')
+			GPIO.wait_for_edge(input_pin, GPIO.RISING)
 			started = True
 			total_frames += 1
 			print('  Camera Acquisition Started.')
@@ -117,6 +117,7 @@ def exit_monitor():
 			print('TERMINATED STIM PROGRAM.')
 			print (' ')
 			raise RuntimeError
+			quit()
 
 ###################################################################################################
 ## Main function to call frame count and stimulation manager functions
