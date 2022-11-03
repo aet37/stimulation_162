@@ -12,8 +12,11 @@ fi
 # Get the absolute path to the stimulation_162 folder
 DIR_PATH=$(pwd)
 
+# Update pip
+sudo pip3 install --upgrade pip
+
 # Make sure packages are installed on Pi
-pip3 install -r requirements.txt
+sudo pip3 install -r requirements.txt
 
 # Insert the alias to run stimulation into the raspi bash file
 sudo echo "alias stim=\"sudo python3 ${DIR_PATH}/send_trigs.py\"" >> ~/.bashrc
@@ -22,4 +25,4 @@ sudo echo "alias stim=\"sudo python3 ${DIR_PATH}/send_trigs.py\"" >> ~/.bashrc
 sudo echo "alias help-stim=\"sh ${DIR_PATH}/help.sh\"" >> ~/.bashrc
 
 # Implement changes to bashrc
-source ~/.bashrc
+. ~/.bashrc

@@ -41,7 +41,7 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 
 	print('  Stimulus delivered at frames: ', stim_frames)
 	print(' ')
-	print(' NOTE: IF YOU WANT TO TERMINATE PROGRAM PLEASE HOLD \'c\' AND \'z\' KEYS followed by [cntrl] + z')
+	print(' NOTE: IF YOU WANT TO TERMINATE PROGRAM PLEASE HOLD \'c\' AND \'z\' KEYS')
 	print('   using only [cntrl]+z will cause unclean exit')
 	print(' ')
 	print('______________________________')
@@ -53,10 +53,20 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 		if not started:
 			print('  Waiting for Camera Acquisition ...')
 			print(' ')
-			GPIO.wait_for_edge(input_pin, GPIO.RISING)
-			started = True
-			total_frames += 1
-			print('  Camera Acquisition Started.')
+
+			# Create interrupt for pin detection
+			GPIO.add_event_detect(input_pin, GPIO.RISING)
+
+			while True:
+				# Continually check for rising edge event
+				if GPIO.event_detected(input_pin):
+					started = True
+					total_frames += 1
+					print('  Camera Acquisition Started.')
+
+				# Check for break signal
+				if exit_program.is_set():
+					return None
 
 		else:
 			# Count the edges
@@ -83,6 +93,10 @@ def stim_trig(duration, frequency, pulse_width):
 
 		# If imaging is done, return
 		if img_done.is_set():
+			return None
+
+		# If break command given, return
+		if exit_program.is_set():
 			return None
 
 		# If signal to simulat is set, send stimulation pulses
@@ -116,11 +130,9 @@ def exit_monitor():
 			print (' ')
 			quit()
 
+		# Stop monitoring if imaging is done
 		if img_done.is_set():
-			break
-
-	time.sleep(0.5)
-	img_done.clear()
+			return
 
 ###################################################################################################
 ## Main function to call frame count and stimulation manager functions
@@ -203,6 +215,9 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 	global img_done
 	img_done = Event()
 	img_done.clear()
+	global exit_program
+	exit_program = Event()
+	exit_program.clear()
 
 	# Set up trigger input GPIO
 	GPIO.setmode(GPIO.BOARD)
