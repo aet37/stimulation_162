@@ -5,10 +5,6 @@ import time
 import keyboard
 from threading import Thread, Event
 
-# Define stim counter
-global stim_run
-stim_run = 1
-
 '''
 	@DATE 1 November 2022
 	@AUTHORS Andrew T. (aet37 atpitt), Adiya R.
@@ -112,8 +108,9 @@ def stim_trig(duration, frequency, pulse_width):
 
 		# If signal to simulat is set, send stimulation pulses
 		if stim_now.is_set():
-			print(' Stim run ', stim_run)
-			stim_run += 1 	# increment stim counter
+			print(' Sending Stimulus')
+			#print(' Stim run ', stim_run)
+			#stim_run += 1 	# increment stim counter
 
 			for i in range(duration):
 				for j in range(frequency):
@@ -193,6 +190,10 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 	global trigger_pin
 	input_pin = inpin
 	trigger_pin = trigpin
+
+	# Define stim counter
+	global stim_run
+	stim_run = 1
 
 	# Make duration, freq, pulse width global for easy printout
 	global dur, freq, pw
