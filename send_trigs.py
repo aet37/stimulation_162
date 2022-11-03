@@ -5,6 +5,10 @@ import time
 import keyboard
 from threading import Thread, Event
 
+# Define stim counter
+global stim_run
+stim_run = 1
+
 '''
 	@DATE 1 November 2022
 	@AUTHORS Andrew T. (aet37 atpitt), Adiya R.
@@ -94,7 +98,7 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 ###################################################################################################
 ## Function to trigger the simulus
 ###################################################################################################
-def stim_trig(duration, frequency, pulse_width, stim_run):
+def stim_trig(duration, frequency, pulse_width):
 
 	while True:
 
@@ -211,10 +215,6 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 		print('')
 		raise RuntimeError
 
-	# Define stim counter
-	global stim_run
-	stim_run = 1
-
 	# Define the events
 	global stim_now
 	stim_now = Event()
@@ -233,7 +233,7 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 
 	# Define the 2 threads
 	listen_thread = Thread(target=listen_2P_frames, args=[noff, ntr, nimtr, img_freq])
-	stim_thread = Thread(target=stim_trig, args=[duration, frequency, pulse_width, stim_run])
+	stim_thread = Thread(target=stim_trig, args=[duration, frequency, pulse_width])
 	exit_tread = Thread(target=exit_monitor)
 
 	# Start the threads
