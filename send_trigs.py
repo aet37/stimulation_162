@@ -94,7 +94,7 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 ###################################################################################################
 ## Function to trigger the simulus
 ###################################################################################################
-def stim_trig(duration, frequency, pulse_width):
+def stim_trig(duration, frequency, pulse_width, stim_run):
 
 	while True:
 
@@ -233,7 +233,7 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 
 	# Define the 2 threads
 	listen_thread = Thread(target=listen_2P_frames, args=[noff, ntr, nimtr, img_freq])
-	stim_thread = Thread(target=stim_trig, args=[duration, frequency, pulse_width])
+	stim_thread = Thread(target=stim_trig, args=[duration, frequency, pulse_width, stim_run])
 	exit_tread = Thread(target=exit_monitor)
 
 	# Start the threads
