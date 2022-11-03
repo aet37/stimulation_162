@@ -54,6 +54,12 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 			print('  Waiting for Camera Acquisition ...')
 			print(' ')
 
+			GPIO.wait_for_edge(input_pin, GPIO.RISING)
+			started = True
+			total_frames += 1
+			print('  Camera Acquisition Started.')
+
+			'''
 			# Create interrupt for pin detection
 			GPIO.add_event_detect(input_pin, GPIO.RISING)
 
@@ -67,6 +73,7 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 				# Check for break signal
 				if exit_program.is_set():
 					return None
+			'''
 
 		else:
 			# Count the edges
