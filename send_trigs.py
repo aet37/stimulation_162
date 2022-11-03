@@ -96,6 +96,9 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 ###################################################################################################
 def stim_trig(duration, frequency, pulse_width):
 
+	# Initialize trigger pin to 0
+	GPIO.output(trigger_pin, 0)
+
 	while True:
 
 		# If imaging is done, return
