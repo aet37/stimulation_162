@@ -2,7 +2,6 @@
 import sys
 import RPi.GPIO as GPIO
 import time
-import keyboard
 from threading import Thread, Event
 
 '''
@@ -190,9 +189,6 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 	global img_done
 	img_done = Event()
 	img_done.clear()
-	global exit_program
-	exit_program = Event()
-	exit_program.clear()
 
 	# Set up trigger input GPIO
 	GPIO.setwarnings(False)
@@ -203,16 +199,13 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 	# Define the 2 threads
 	listen_thread = Thread(target=listen_2P_frames, args=[noff, ntr, nimtr, img_freq])
 	stim_thread = Thread(target=stim_trig, args=[duration, frequency, pulse_width])
-	exit_tread = Thread(target=exit_monitor)
 
 	# Start the threads
 	listen_thread.start()
-	exit_tread.start()
 	stim_thread.start()
 
 	# Join the threads to end program
 	stim_thread.join()
-	exit_tread.join()
 
 	# Cleanup the GPIO
 	#GPIO.cleanup()
