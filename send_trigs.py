@@ -59,35 +59,6 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 			total_frames += 1
 			print('  Camera Acquisition Started.')
 
-			'''
-			while True:
-
-				# Wait for imaging start signal
-				if GPIO.input(input_pin) == True:
-					started = True
-					total_frames += 1
-					print('  Camera Acquisition Started.')
-					break
-
-				# If break command given, return
-				if exit_program.is_set():
-					return None
-
-			# Create interrupt for pin detection
-			GPIO.add_event_detect(input_pin, GPIO.RISING)
-
-			while True:
-				# Continually check for rising edge event
-				if GPIO.event_detected(input_pin):
-					started = True
-					total_frames += 1
-					print('  Camera Acquisition Started.')
-
-				# Check for break signal
-				if exit_program.is_set():
-					return None
-			'''
-
 		else:
 			# Count the edges
 			channel = GPIO.wait_for_edge(input_pin, GPIO.RISING, timeout=3000)
@@ -121,10 +92,6 @@ def stim_trig(duration, frequency, pulse_width):
 		if img_done.is_set():
 			return None
 
-		# If break command given, return
-		if exit_program.is_set():
-			return None
-
 		# If signal to simulat is set, send stimulation pulses
 		if stim_now.is_set():
 			print(' Stim run ', stim_run)
@@ -142,24 +109,6 @@ def stim_trig(duration, frequency, pulse_width):
 		# Take no action otherwise
 		else:
 			continue
-
-###################################################################################################
-## Function to monitor the keyboard for an exit signal to do clean exit
-###################################################################################################
-def exit_monitor():
-	while True:
-		# Exit program cleanly (clear GPIO) if 'c' and 'z' are pressed at same time
-		if keyboard.is_pressed('c') and keyboard.is_pressed('z'):
-			GPIO.cleanup()
-			print(' ')
-			print('TERMINATED STIM PROGRAM.')
-			print (' ')
-			exit_program.set()
-			quit()
-
-		# Stop monitoring if imaging is done
-		if img_done.is_set():
-			return
 
 ###################################################################################################
 ## Main function to call frame count and stimulation manager functions
@@ -186,7 +135,6 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 			None
 
 		NOTE:
-			- PRESS 'c' and 'z' KEY AT SAME TIME TO EXIT PROGRAM
 
 			- Error checking will occur for noff, nimtr, and ntr to ensure valid values
 			- Error checking will occur for frequency and pulse width to ensure no negative time pause in program
@@ -247,6 +195,7 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 	exit_program.clear()
 
 	# Set up trigger input GPIO
+	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BOARD)
 	GPIO.setup(input_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # internal pull down
 	GPIO.setup(trigger_pin, GPIO.OUT) # internal pull down
@@ -266,7 +215,7 @@ def run_trig(noff, nimtr, ntr, duration, frequency, pulse_width, img_freq, inpin
 	exit_tread.join()
 
 	# Cleanup the GPIO
-	GPIO.cleanup()
+	#GPIO.cleanup()
 
 ###################################################################################################
 ## If called from bash, parse the input arguments provided and call the run_trig funciton
