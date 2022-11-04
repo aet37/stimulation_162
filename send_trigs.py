@@ -72,7 +72,6 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 				# If break command given, return
 				if exit_program.is_set():
 					return None
-			'''
 
 			# Create interrupt for pin detection
 			GPIO.add_event_detect(input_pin, GPIO.RISING)
