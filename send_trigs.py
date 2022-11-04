@@ -54,10 +54,19 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 			print('  Waiting for Camera Acquisition ...')
 			print(' ')
 
-			GPIO.wait_for_edge(input_pin, GPIO.RISING)
-			started = True
-			total_frames += 1
-			print('  Camera Acquisition Started.')
+			while True:
+				#GPIO.wait_for_edge(input_pin, GPIO.RISING)
+
+				# Wait for imaging start signal
+				if GPIO.input(input_pin) == True
+					started = True
+					total_frames += 1
+					print('  Camera Acquisition Started.')
+					break
+
+				# If break command given, return
+				if exit_program.is_set():
+					return None
 
 			'''
 			# Create interrupt for pin detection
@@ -96,8 +105,11 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 ###################################################################################################
 def stim_trig(duration, frequency, pulse_width):
 
+	# Define global stim_run variable within scope
+	global stim_run
+
 	# Initialize trigger pin to 0
-	GPIO.output(trigger_pin, 0)
+	GPIO.output(trigger_pin, 1)
 
 	while True:
 
@@ -111,15 +123,14 @@ def stim_trig(duration, frequency, pulse_width):
 
 		# If signal to simulat is set, send stimulation pulses
 		if stim_now.is_set():
-			print(' Sending Stimulus')
-			#print(' Stim run ', stim_run)
-			#stim_run += 1 	# increment stim counter
+			print(' Stim run ', stim_run)
+			stim_run += 1 	# increment stim counter
 
 			for i in range(duration):
 				for j in range(frequency):
-					GPIO.output(trigger_pin, 1)
-					time.sleep(pulse_width/1000)
 					GPIO.output(trigger_pin, 0)
+					time.sleep(pulse_width/1000)
+					GPIO.output(trigger_pin, 1)
 					time.sleep((1/frequency) - (pulse_width/1000))
 
 
@@ -139,6 +150,7 @@ def exit_monitor():
 			print(' ')
 			print('TERMINATED STIM PROGRAM.')
 			print (' ')
+			exit_program.set()
 			quit()
 
 		# Stop monitoring if imaging is done
