@@ -58,7 +58,7 @@ def listen_2P_frames(noff, ntr, nimtr, img_freq):
 				#GPIO.wait_for_edge(input_pin, GPIO.RISING)
 
 				# Wait for imaging start signal
-				if GPIO.input(input_pin) == True
+				if GPIO.input(input_pin) == True:
 					started = True
 					total_frames += 1
 					print('  Camera Acquisition Started.')
