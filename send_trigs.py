@@ -96,12 +96,17 @@ def stim_trig(duration, frequency, pulse_width):
 			print(' Stim run ', stim_run)
 			stim_run += 1 	# increment stim counter
 
-			for i in range(duration):
-				for j in range(frequency):
-					GPIO.output(trigger_pin, 0)
-					time.sleep(pulse_width/1000)
-					GPIO.output(trigger_pin, 1)
-					time.sleep((1/frequency) - (pulse_width/1000))
+			if 1/frequency == pulse_width/1000:
+				GPIO.output(trigger_pin, 1)
+				time.sleep(duration)
+				GPIO.output(trigger_pin, 0)
+			else:
+				for i in range(duration):
+					for j in range(frequency):
+						GPIO.output(trigger_pin, 1)
+						time.sleep(pulse_width/1000)
+						GPIO.output(trigger_pin, 0)
+						time.sleep((1/frequency) - (pulse_width/1000))
 
 
 			stim_now.clear()
