@@ -1,2 +1,2 @@
-keyboard
 RPi.GPIO
+PyQt5>=5.15.1
