@@ -20,15 +20,15 @@ TRIGGER_IN_PIN = 11
 # Define the output pins
 global TRIGGER_INV_PIN, TRIGGER_NORM_PIN, TRIGGER_M8_PIN
 TRIGGER_INV_PIN = 13	# For Laser
-TRIGGER_NORM_PIN = 17	# For Normal
+TRIGGER_NORM_PIN = 15	# For Normal
 TRIGGER_M8_PIN = 19	# For Normal
 
 # Define the LED pins
 global LED1_PIN, LED2_PIN, LED3_PIN, FLOUR_PIN
 LED1_PIN = 21
 LED2_PIN = 23
-LED3_PIN = 25
-FLOUR_PIN = 27
+LED3_PIN = 27
+FLOUR_PIN = 29
 
 '''
 Class to control and run the stimulation (QThread object)
