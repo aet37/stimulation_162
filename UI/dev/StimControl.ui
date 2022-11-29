@@ -1248,6 +1248,19 @@ font: 20pt;</string>
        </property>
       </widget>
      </widget>
+     <widget class="QPushButton" name="frameSimulate">
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>400</y>
+        <width>121</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Simulate Frame</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
