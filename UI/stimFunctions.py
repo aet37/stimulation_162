@@ -27,8 +27,8 @@ TRIGGER_M8_PIN = 19	# For Normal
 global LED1_PIN, LED2_PIN, LED3_PIN, FLOUR_PIN
 LED1_PIN = 21
 LED2_PIN = 23
-LED3_PIN = 27
-FLOUR_PIN = 29
+LED3_PIN = 29
+FLOUR_PIN = 31
 
 '''
 Class to control and run the stimulation (QThread object)
