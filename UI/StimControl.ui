@@ -174,7 +174,7 @@
          <x>260</x>
          <y>120</y>
          <width>171</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -190,7 +190,7 @@
          <x>440</x>
          <y>120</y>
          <width>71</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
        <property name="styleSheet">
