@@ -288,7 +288,7 @@ color rgb(255, 2, 21)</string>
       <widget class="QLabel" name="LEDUseReport">
        <property name="geometry">
         <rect>
-         <x>760</x>
+         <x>800</x>
          <y>120</y>
          <width>71</width>
          <height>31</height>

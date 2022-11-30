@@ -88,8 +88,10 @@ class stimControlNoWait(QObject):
 
 				# Send Master 8 the stimulus
 				GPIO.output(TRIGGER_M8_PIN, 1)
+				print('Trig UP')
 				time.sleep(0.2)
 				GPIO.output(TRIGGER_M8_PIN, 0)
+				print('Trig DN')
 				time.sleep(0.8)
 
 				# Check if stop button has been pressed in UI
