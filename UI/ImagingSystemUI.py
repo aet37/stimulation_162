@@ -164,7 +164,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			if self.curr_stim_tr == 1:
 				self.expProgress.setValue(int(((self.curr_stim_tr - 0.5) / self.ntr) * 100))
 			else:
-				print('Part2', self.curr_stim_tr, self.ntr)
+				print('Part2', (self.curr_stim_tr - 1)/self.ntr)
 				self.expProgress.setValue(int(((self.curr_stim_tr - 1) / self.ntr) * 100))
 
 	# Show progress bar update if doing imaging
