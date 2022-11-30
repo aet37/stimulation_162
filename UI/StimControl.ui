@@ -130,9 +130,9 @@
        <property name="geometry">
         <rect>
          <x>350</x>
-         <y>80</y>
+         <y>90</y>
          <width>171</width>
-         <height>16</height>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
@@ -171,9 +171,9 @@
       <widget class="QLabel" name="label_24">
        <property name="geometry">
         <rect>
-         <x>280</x>
-         <y>110</y>
-         <width>111</width>
+         <x>260</x>
+         <y>120</y>
+         <width>171</width>
          <height>16</height>
         </rect>
        </property>
@@ -187,8 +187,8 @@
       <widget class="QLabel" name="stimTrNumMonitor">
        <property name="geometry">
         <rect>
-         <x>400</x>
-         <y>110</y>
+         <x>440</x>
+         <y>120</y>
          <width>71</width>
          <height>16</height>
         </rect>
@@ -203,8 +203,8 @@
       <widget class="QLabel" name="StimONMonitor">
        <property name="geometry">
         <rect>
-         <x>370</x>
-         <y>150</y>
+         <x>350</x>
+         <y>160</y>
          <width>131</width>
          <height>21</height>
         </rect>
