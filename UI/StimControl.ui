@@ -442,12 +442,12 @@ color rgb(255, 2, 21)</string>
          <rect>
           <x>10</x>
           <y>50</y>
-          <width>171</width>
+          <width>211</width>
           <height>21</height>
          </rect>
         </property>
         <property name="text">
-         <string>Laser (Reverse Polarity)</string>
+         <string>INV (-5V Normal, 0V Stim) </string>
         </property>
        </widget>
        <widget class="QRadioButton" name="master8RadioButton">
@@ -736,9 +736,9 @@ color rgb(255, 2, 21)</string>
         </property>
         <property name="geometry">
          <rect>
-          <x>200</x>
+          <x>180</x>
           <y>30</y>
-          <width>91</width>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -768,9 +768,9 @@ color rgb(255, 2, 21)</string>
         </property>
         <property name="geometry">
          <rect>
-          <x>200</x>
+          <x>180</x>
           <y>70</y>
-          <width>91</width>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -800,9 +800,9 @@ color rgb(255, 2, 21)</string>
         </property>
         <property name="geometry">
          <rect>
-          <x>200</x>
+          <x>180</x>
           <y>90</y>
-          <width>91</width>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -848,9 +848,9 @@ color rgb(255, 2, 21)</string>
         </property>
         <property name="geometry">
          <rect>
-          <x>200</x>
+          <x>180</x>
           <y>50</y>
-          <width>91</width>
+          <width>101</width>
           <height>20</height>
          </rect>
         </property>
@@ -1221,7 +1221,7 @@ color rgb(255, 2, 21)</string>
          <rect>
           <x>40</x>
           <y>110</y>
-          <width>121</width>
+          <width>161</width>
           <height>21</height>
          </rect>
         </property>
