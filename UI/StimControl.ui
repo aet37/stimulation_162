@@ -39,9 +39,9 @@
       </property>
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>0</x>
         <y>440</y>
-        <width>851</width>
+        <width>961</width>
         <height>201</height>
        </rect>
       </property>
@@ -222,7 +222,7 @@ color rgb(255, 2, 21)</string>
         <rect>
          <x>10</x>
          <y>70</y>
-         <width>231</width>
+         <width>261</width>
          <height>31</height>
         </rect>
        </property>
