@@ -154,11 +154,13 @@ class ImagingSystem(QtWidgets.QMainWindow):
 
 	# Show trial counter updat ein experiment monitor in UI
 	def update_tr_num(self, tr_num):
+		print('Called')
 		self.curr_stim_tr = tr_num
 		self.stimTrNumMonitor.setText(str(self.curr_stim_tr) + ' / ' + str(self.ntr))
 
 		# If not an imaging trial, update the progress bar as well (since we cannot count frames)
 		if not self.doImg:
+			print('Updating')
 			if self.curr_stim_tr == 1:
 				self.expProgress.setValue(int(((self.curr_stim_tr - 0.5) / self.ntr) * 100))
 			else:
