@@ -297,6 +297,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.LenGroup.setEnabled(True)
 			self.useStimCheck.setChecked(True)
 			self.useStimCheck.setEnabled(False)
+			self.doStim = True
 
 	# For Do Stimulation Checkbox
 	def stim_selection_toggle(self):
