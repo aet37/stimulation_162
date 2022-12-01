@@ -21,7 +21,7 @@ TRIGGER_IN_PIN = 11
 global TRIGGER_INV_PIN, TRIGGER_NORM_PIN, TRIGGER_M8_PIN
 TRIGGER_INV_PIN = 13	# For Laser
 TRIGGER_NORM_PIN = 15	# For Normal
-TRIGGER_M8_PIN = 19	# For Normal
+TRIGGER_M8_PIN = 19	# For Master 8/9
 
 # Define the LED pins
 global LED1_PIN, LED2_PIN, LED3_PIN, FLOUR_PIN
@@ -100,10 +100,8 @@ class stimControlNoWait(QObject):
 
 				# Send Master 8 the stimulus
 				GPIO.output(TRIGGER_M8_PIN, 1)
-				print('Trig UP')
 				time.sleep(0.2)
 				GPIO.output(TRIGGER_M8_PIN, 0)
-				print('Trig DN')
 				time.sleep(0.8)
 
 				# Check if stop button has been pressed in UI
