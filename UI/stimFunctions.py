@@ -111,7 +111,7 @@ class stimControlNoWait(QObject):
 					return
 
 				# Sleep for the remainder of the trial time (while checking for done signal)
-				for a in range(self.ttr):
+				for a in range(self.ttr - 1):
 
 					# Send UI stimulation off signal at proper time
 					if a + 1 == self.dur:
