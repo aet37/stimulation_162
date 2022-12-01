@@ -312,7 +312,7 @@ class stimControl(QObject):
 				# Sleep for the remainder of the stimulation time (while checking for done signal)
 				for i in range(self.dur):
 					time.sleep(1)
-					if self.ctrl.is_set():
+					if self.exp_stopped.is_set():
 						self.force_stopped.emit()
 						return
 
@@ -328,7 +328,7 @@ class stimControl(QObject):
 				# Sleep for the remainder of the stimulation time (while checking for done signal)
 				for i in range(self.dur):
 					time.sleep(1)
-					if self.ctrl.is_set():
+					if self.exp_stopped.is_set():
 						self.force_stopped.emit()
 						return
 
@@ -347,7 +347,7 @@ class stimControl(QObject):
 						time.sleep((1/self.freq) - (self.pw/1000))
 
 						# Check if trial was stopped
-						if self.ctrl.is_set():
+						if self.exp_stopped.is_set():
 							self.force_stopped.emit()
 							return
 		else:
@@ -361,7 +361,7 @@ class stimControl(QObject):
 				# Sleep for the remainder of the stimulation time (while checking for done signal)
 				for i in range(self.dur):
 					time.sleep(1)
-					if self.ctrl.is_set():
+					if self.exp_stopped.is_set():
 						self.force_stopped.emit()
 						return
 
@@ -377,7 +377,7 @@ class stimControl(QObject):
 				# Sleep for the remainder of the stimulation time (while checking for done signal)
 				for i in range(self.dur):
 					time.sleep(1)
-					if self.ctrl.is_set():
+					if self.exp_stopped.is_set():
 						self.force_stopped.emit()
 						return
 
@@ -395,7 +395,7 @@ class stimControl(QObject):
 						time.sleep((1/self.freq) - (self.pw/1000))
 
 						# Check if trial was stopped
-						if self.ctrl.is_set():
+						if self.exp_stopped.is_set():
 							self.force_stopped.emit()
 							return
 
