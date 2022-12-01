@@ -249,8 +249,8 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.img_worker.frame_number.connect(self.update_prog_bar)
 
 		# Quitting Signals
-		self.img_worker.finished.connect(self.stim_thread.quit)
-		self.img_worker.force_stopped.connect(self.stim_thread.quit)
+		self.img_worker.finished.connect(self.stim_thread.exit)
+		self.img_worker.force_stopped.connect(self.stim_thread.exit)
 		# Try terminate
 		self.img_worker.finished.connect(self.stim_thread.terminate)
 		self.img_worker.force_stopped.connect(self.stim_thread.terminate)
