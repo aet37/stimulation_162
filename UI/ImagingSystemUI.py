@@ -167,19 +167,21 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.stimTrNumMonitor.setText(str(self.curr_stim_tr) + ' / ' + str(self.ntr))
 
 		# If not an imaging trial, update the progress bar as well (since we cannot count frames)
-		if not self.doImg:
-			if self.curr_stim_tr == 1:
-				self.expProgress.setValue(int(((self.curr_stim_tr - 0.5) / self.ntr) * 100))
-			else:
-				self.expProgress.setValue(int(((self.curr_stim_tr - 1) / self.ntr) * 100))
+		if self.exp_running:
+			if not self.doImg:
+				if self.curr_stim_tr == 1:
+					self.expProgress.setValue(int(((self.curr_stim_tr - 0.5) / self.ntr) * 100))
+				else:
+					self.expProgress.setValue(int(((self.curr_stim_tr - 1) / self.ntr) * 100))
 
 	# Show progress bar update if doing imaging
 	def update_prog_bar(self, frame_num):
-		total_frames = self.noff + (self.nimtr * self.ntr)
-		self.expProgress.setValue(int((frame_num / total_frames) * 100))
+		if self.exp_running:
+			total_frames = self.noff + (self.nimtr * self.ntr)
+			self.expProgress.setValue(int((frame_num / total_frames) * 100))
 
-		self.totalFrames.setText(str(total_frames))
-		self.CurrFrame.setText(str(frame_num))
+			self.totalFrames.setText(str(total_frames))
+			self.CurrFrame.setText(str(frame_num))
 
 
 	def update_started(self):
