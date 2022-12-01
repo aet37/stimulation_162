@@ -68,6 +68,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		# Radio Buttons
 		self.master8RadioButton = self.findChild(QtWidgets.QRadioButton, 'master8RadioButton')
 		self.laserRadioButton = self.findChild(QtWidgets.QRadioButton, 'laserRadioButton')
+		self.master8RadioButton = self.findChild(QtWidgets.QRadioButton, 'NormChRadioB')
 
 		# Labels
 		self.nimsReport = self.findChild(QtWidgets.QLabel, 'nimsReport')
@@ -114,7 +115,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.actShowLive = False
 		self.waitForTrig = False
 
-		self.stimToLaser = False
+		self.stimToINV = False
 		self.stimToMaster8 = False
 
 		self.noff = 0
@@ -187,7 +188,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.stim_thread = QThread()
 
 		# Define worker classes
-		self.stim_worker = stimControlNoWait(self.noff, self.nimtr, self.ntr, self.stim_dur, self.stim_freq, self.stim_pw, self.stimToMaster8, self.waitForTrig, exp_stopped, frame_sim)
+		self.stim_worker = stimControlNoWait(self.noff, self.nimtr, self.ntr, self.stim_dur, self.stim_freq, self.stim_pw, self.stimToMaster8, self.stimToINV, self.waitForTrig, exp_stopped, frame_sim)
 
 		# Move tasks to their threads
 		self.stim_worker.moveToThread(self.stim_thread)
@@ -221,7 +222,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.led_thread = QThread()
 
 		# Define worker classes
-		self.stim_worker = stimControl(self.stim_dur, self.stim_freq, self.stim_pw, self.stimToMaster8, exp_stopped)
+		self.stim_worker = stimControl(self.stim_dur, self.stim_freq, self.stim_pw, self.stimToMaster8, self.stimToINV, exp_stopped)
 		self.img_worker = frameCount(self.noff, self.nimtr, self.ntr, exp_stopped, frame_sim)
 		if self.doLED:
 			self.led_worker = LEDControl(self.num_led, [self.use_led1, self.use_led2, self.use_led3, self.use_ledf], [self.led1_period, self.led2_period, self.led3_period, self.ledf_period], exp_stopped)
@@ -444,7 +445,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.inputErrorLabel.setText('Error: pulse width must be int.')
 			return
 
-		self.stimToLaser = self.laserRadioButton.isChecked()
+		self.stimToINV = self.laserRadioButton.isChecked()
 		self.stimToMaster8 = self.master8RadioButton.isChecked()
 
 		# Check to make sure LED inputs are correct

@@ -54,7 +54,7 @@ class stimControlNoWait(QObject):
 	exp_started = pyqtSignal()
 	trial_number = pyqtSignal(int)
 
-	def __init__(self, noff, nimtr, ntr, dur, freq, pw, stimToMaster8, waitForTrig, cntrl, frame_aq):
+	def __init__(self, noff, nimtr, ntr, dur, freq, pw, stimToMaster8, stimToInv, waitForTrig, cntrl, frame_aq):
 		QObject.__init__(self)
 		self.ctrl = cntrl
 		self.frame = frame_aq
@@ -65,6 +65,7 @@ class stimControlNoWait(QObject):
 		self.pw = pw
 		self.freq = freq
 		self.toM8 = stimToMaster8
+		self.toINV = stimToInv
 		self.do_wait = waitForTrig
 
 	def run(self):
@@ -124,13 +125,15 @@ class stimControlNoWait(QObject):
 						self.force_stopped.emit()
 						return
 
-			else:
+			# Inverted stimulation channel
+			elif self.toINV:
+
 				# Send UI stimulation signal
 				self.stim_on.emit()
 
 				# DC Case 1
 				if self.freq == 0:
-					GPIO.output(TRIGGER_INV_PIN, 1)
+					GPIO.output(TRIGGER_INV_PIN, 0)
 
 					# Sleep for the remainder of the stimulation time (while checking for done signal)
 					for a in range(self.dur):
@@ -139,14 +142,14 @@ class stimControlNoWait(QObject):
 							self.force_stopped.emit()
 							return
 
-					GPIO.output(TRIGGER_INV_PIN, 0)
+					GPIO.output(TRIGGER_INV_PIN, 1)
 
 					# Send UI stimulation off signal
 					self.stim_off.emit()
 
 				# DC Case 2
 				elif 1/self.freq == self.pw/1000:
-					GPIO.output(TRIGGER_INV_PIN, 1)
+					GPIO.output(TRIGGER_INV_PIN, 0)
 
 					# Sleep for the remainder of the stimulation time (while checking for done signal)
 					for a in range(self.dur):
@@ -155,7 +158,7 @@ class stimControlNoWait(QObject):
 							self.force_stopped.emit()
 							return
 
-					GPIO.output(TRIGGER_INV_PIN, 0)
+					GPIO.output(TRIGGER_INV_PIN, 1)
 
 					# Send UI stimulation off signal
 					self.stim_off.emit()
@@ -163,9 +166,69 @@ class stimControlNoWait(QObject):
 				else:
 					for j in range(self.dur):
 						for k in range(self.freq):
-							GPIO.output(TRIGGER_INV_PIN, 1)
-							time.sleep(pulse_width/1000)
 							GPIO.output(TRIGGER_INV_PIN, 0)
+							time.sleep(pulse_width/1000)
+							GPIO.output(TRIGGER_INV_PIN, 1)
+							time.sleep((1/frequency) - (pulse_width/1000))
+
+							# Check if trial was stopped
+							if self.ctrl.is_set():
+								self.force_stopped.emit()
+								return
+
+					# Send UI stimulation offsignal
+					self.stim_off.emit()
+
+				# Sleep for the remainder of the trial time (while checking for done signal)
+				for a in range(self.ttr - self.dur):
+					time.sleep(1)
+
+					if self.ctrl.is_set():
+							self.force_stopped.emit()
+							return
+
+			else:
+				# Send UI stimulation signal
+				self.stim_on.emit()
+
+				# DC Case 1
+				if self.freq == 0:
+					GPIO.output(TRIGGER_NORM_PIN, 1)
+
+					# Sleep for the remainder of the stimulation time (while checking for done signal)
+					for a in range(self.dur):
+						time.sleep(1)
+						if self.ctrl.is_set():
+							self.force_stopped.emit()
+							return
+
+					GPIO.output(TRIGGER_NORM_PIN, 0)
+
+					# Send UI stimulation off signal
+					self.stim_off.emit()
+
+				# DC Case 2
+				elif 1/self.freq == self.pw/1000:
+					GPIO.output(TRIGGER_NORM_PIN, 1)
+
+					# Sleep for the remainder of the stimulation time (while checking for done signal)
+					for a in range(self.dur):
+						time.sleep(1)
+						if self.ctrl.is_set():
+							self.force_stopped.emit()
+							return
+
+					GPIO.output(TRIGGER_NORM_PIN, 0)
+
+					# Send UI stimulation off signal
+					self.stim_off.emit()
+
+				else:
+					for j in range(self.dur):
+						for k in range(self.freq):
+							GPIO.output(TRIGGER_NORM_PIN, 1)
+							time.sleep(pulse_width/1000)
+							GPIO.output(TRIGGER_NORM_PIN, 0)
 							time.sleep((1/frequency) - (pulse_width/1000))
 
 							# Check if trial was stopped
@@ -199,12 +262,13 @@ class stimControl(QObject):
 	# Keep track of trial number
 	tr_num = 0
 
-	def __init__(self, stim_dur, stim_freq, stim_pw, stimToMaster8, exp_stopped):
+	def __init__(self, stim_dur, stim_freq, stim_pw, stimToMaster8, stimToInv, exp_stopped):
 		QObject.__init__(self)
 		self.dur = stim_dur
 		self.pw = stim_pw
 		self.freq = stim_freq
 		self.toM8 = stimToMaster8
+		self.toINV = stimToInv
 		self.exp_stopped = exp_stopped
 
 	def run(self):
@@ -233,13 +297,13 @@ class stimControl(QObject):
 
 			self.stim_off.emit()
 
-		else:
+		elif self.toINV:
 			# Send UI stimulation signal
 			self.stim_on.emit()
 
 			# DC Case 1
 			if self.freq == 0:
-				GPIO.output(TRIGGER_INV_PIN, 1)
+				GPIO.output(TRIGGER_INV_PIN, 0)
 
 				# Sleep for the remainder of the stimulation time (while checking for done signal)
 				for i in range(self.dur):
@@ -248,14 +312,14 @@ class stimControl(QObject):
 						self.force_stopped.emit()
 						return
 
-				GPIO.output(TRIGGER_INV_PIN, 0)
+				GPIO.output(TRIGGER_INV_PIN, 1)
 
 				# Send UI stimulation off signal
 				self.stim_off.emit()
 
 			# DC Case 2
 			elif 1/self.freq == self.pw/1000:
-				GPIO.output(TRIGGER_INV_PIN, 1)
+				GPIO.output(TRIGGER_INV_PIN, 0)
 
 				# Sleep for the remainder of the stimulation time (while checking for done signal)
 				for i in range(self.dur):
@@ -264,7 +328,56 @@ class stimControl(QObject):
 						self.force_stopped.emit()
 						return
 
-				GPIO.output(TRIGGER_INV_PIN, 0)
+				GPIO.output(TRIGGER_INV_PIN, 1)
+
+				# Send UI stimulation off signal
+				self.stim_off.emit()
+
+
+			else:
+				for j in range(self.dur):
+					for k in range(self.freq):
+						GPIO.output(TRIGGER_INV_PIN, 0)
+						time.sleep(pulse_width/1000)
+						GPIO.output(TRIGGER_INV_PIN, 1)
+						time.sleep((1/frequency) - (pulse_width/1000))
+
+						# Check if trial was stopped
+						if self.ctrl.is_set():
+							self.force_stopped.emit()
+							return
+		else:
+			# Send UI stimulation signal
+			self.stim_on.emit()
+
+			# DC Case 1
+			if self.freq == 0:
+				GPIO.output(TRIGGER_NORM_PIN, 1)
+
+				# Sleep for the remainder of the stimulation time (while checking for done signal)
+				for i in range(self.dur):
+					time.sleep(1)
+					if self.ctrl.is_set():
+						self.force_stopped.emit()
+						return
+
+				GPIO.output(TRIGGER_NORM_PIN, 0)
+
+				# Send UI stimulation off signal
+				self.stim_off.emit()
+
+			# DC Case 2
+			elif 1/self.freq == self.pw/1000:
+				GPIO.output(TRIGGER_NORM_PIN, 1)
+
+				# Sleep for the remainder of the stimulation time (while checking for done signal)
+				for i in range(self.dur):
+					time.sleep(1)
+					if self.ctrl.is_set():
+						self.force_stopped.emit()
+						return
+
+				GPIO.output(TRIGGER_NORM_PIN, 0)
 
 				# Send UI stimulation off signal
 				self.stim_off.emit()
@@ -272,9 +385,9 @@ class stimControl(QObject):
 			else:
 				for j in range(self.dur):
 					for k in range(self.freq):
-						GPIO.output(TRIGGER_INV_PIN, 1)
+						GPIO.output(TRIGGER_NORM_PIN, 1)
 						time.sleep(pulse_width/1000)
-						GPIO.output(TRIGGER_INV_PIN, 0)
+						GPIO.output(TRIGGER_NORM_PIN, 0)
 						time.sleep((1/frequency) - (pulse_width/1000))
 
 						# Check if trial was stopped
