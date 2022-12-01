@@ -88,6 +88,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.LED3Monitor = self.findChild(QtWidgets.QLabel, 'LED3Monitor')
 		self.FlourMonitor = self.findChild(QtWidgets.QLabel, 'FlourMonitor')
 		self.LEDUseReport = self.findChild(QtWidgets.QLabel, 'LEDUseReport')
+		self.CurrFrame = self.findChild(QtWidgets.QLabel, 'CurrFrame')
+		self.totalFrames = self.findChild(QtWidgets.QLabel, 'totalFrames')
+		self.slash = self.findChild(QtWidgets.QLabel, 'slash')
 
 		# Push Buttons
 		self.startButton = self.findChild(QtWidgets.QPushButton, 'startButton')
@@ -589,6 +592,15 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.ImgStatus.setStyleSheet('Color: green;Font-Size:20pt;')
 
 		if self.doImg:
+			self.totalFrames.setText('0')
+			self.slash.setText('/')
+			self.CurrFrame.setText(str(self.noff + (self.nimtr * self.ntr)))
+		else:
+			self.totalFrames.setText('')
+			self.slash.setText('')
+			self.CurrFrame.setText('')
+
+		if self.doImg:
 			# Call funciton to start trigger experiments
 			self.start_stim()
 		else:
@@ -629,6 +641,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.ImgStatus.setText('Experiment Stopped')
 		self.ImgStatus.setStyleSheet('Color: red;Font-Size:20pt;')
 		self.StimONMonitor.setText('')
+		self.totalFrames.setText('')
+		self.slash.setText('')
+		self.CurrFrame.setText('')
 
 		self.LED1Monitor.setEnabled(False)
 		self.LED2Monitor.setEnabled(False)
@@ -679,6 +694,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.ImgStatus.setText('Experiment Finished.')
 		self.ImgStatus.setStyleSheet('Color: black;Font-Size:20pt;')
 		self.StimONMonitor.setText('')
+		self.totalFrames.setText('')
+		self.slash.setText('')
+		self.CurrFrame.setText('')
 
 		self.LED1Monitor.setEnabled(False)
 		self.LED2Monitor.setEnabled(False)

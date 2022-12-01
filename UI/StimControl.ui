@@ -155,7 +155,7 @@
       <widget class="QLabel" name="label_23">
        <property name="geometry">
         <rect>
-         <x>660</x>
+         <x>750</x>
          <y>60</y>
          <width>141</width>
          <height>31</height>
@@ -236,7 +236,7 @@ color rgb(255, 2, 21)</string>
       <widget class="QLabel" name="LED1Monitor">
        <property name="geometry">
         <rect>
-         <x>660</x>
+         <x>750</x>
          <y>100</y>
          <width>91</width>
          <height>16</height>
@@ -249,7 +249,7 @@ color rgb(255, 2, 21)</string>
       <widget class="QLabel" name="LED2Monitor">
        <property name="geometry">
         <rect>
-         <x>660</x>
+         <x>750</x>
          <y>120</y>
          <width>91</width>
          <height>16</height>
@@ -262,7 +262,7 @@ color rgb(255, 2, 21)</string>
       <widget class="QLabel" name="LED3Monitor">
        <property name="geometry">
         <rect>
-         <x>660</x>
+         <x>750</x>
          <y>140</y>
          <width>91</width>
          <height>16</height>
@@ -275,7 +275,7 @@ color rgb(255, 2, 21)</string>
       <widget class="QLabel" name="FlourMonitor">
        <property name="geometry">
         <rect>
-         <x>660</x>
+         <x>750</x>
          <y>160</y>
          <width>101</width>
          <height>16</height>
@@ -288,7 +288,7 @@ color rgb(255, 2, 21)</string>
       <widget class="QLabel" name="LEDUseReport">
        <property name="geometry">
         <rect>
-         <x>800</x>
+         <x>880</x>
          <y>120</y>
          <width>71</width>
          <height>31</height>
@@ -296,6 +296,45 @@ color rgb(255, 2, 21)</string>
        </property>
        <property name="styleSheet">
         <string notr="true">font: 18pt;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="CurrFrame">
+       <property name="geometry">
+        <rect>
+         <x>570</x>
+         <y>60</y>
+         <width>58</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="slash">
+       <property name="geometry">
+        <rect>
+         <x>630</x>
+         <y>60</y>
+         <width>21</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>/</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="totalFrames">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>60</y>
+         <width>58</width>
+         <height>16</height>
+        </rect>
        </property>
        <property name="text">
         <string/>
