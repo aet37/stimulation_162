@@ -167,8 +167,10 @@ class stimControlNoWait(QObject):
 					for j in range(self.dur):
 						for k in range(self.freq):
 							GPIO.output(TRIGGER_INV_PIN, 0)
+							print('Down')
 							time.sleep(pulse_width/1000)
 							GPIO.output(TRIGGER_INV_PIN, 1)
+							print('UP')
 							time.sleep((1/frequency) - (pulse_width/1000))
 
 							# Check if trial was stopped
