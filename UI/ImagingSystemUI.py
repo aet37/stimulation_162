@@ -570,6 +570,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		# Set the stop flag
 		exp_stopped.set()
 
+		# Set Pins to all off
+		initialize_gpio()
+
 		# Reset Experimental Variables
 		self.noff = 0
 		self.nimtr = 0
@@ -616,6 +619,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 
 		# Set progress bar to 100
 		self.expProgress.setValue(100)
+
+		# Set Pins to all off
+		initialize_gpio()
 
 		# Reset Experimental Variables
 		self.noff = 0
@@ -673,6 +679,9 @@ GPIO.setup(LED1_PIN, GPIO.OUT)
 GPIO.setup(LED2_PIN, GPIO.OUT)
 GPIO.setup(LED3_PIN, GPIO.OUT)
 GPIO.setup(FLOUR_PIN, GPIO.OUT)
+
+# Initialize Pins to all off
+initialize_gpio()
 
 # UI Setup
 app = QtWidgets.QApplication(sys.argv)

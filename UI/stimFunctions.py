@@ -30,6 +30,18 @@ LED2_PIN = 23
 LED3_PIN = 29
 FLOUR_PIN = 31
 
+
+# Function to set the default state of the pins
+def initialize_gpio():
+	# Initialize Pins to all off
+	GPIO.output(TRIGGER_M8_PIN, 0)
+	GPIO.output(TRIGGER_NORM_PIN, 0)
+	GPIO.output(TRIGGER_INV_PIN, 1)
+	GPIO.output(LED1_PIN, 0)
+	GPIO.output(LED2_PIN, 0)
+	GPIO.output(LED3_PIN, 0)
+	GPIO.output(FLOUR_PIN, 0)
+
 '''
 Class to control and run the stimulation (QThread object)
 '''
