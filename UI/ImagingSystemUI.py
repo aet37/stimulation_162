@@ -177,8 +177,8 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		total_frames = self.noff + (self.nimtr * self.ntr)
 		self.expProgress.setValue(int((frame_num / total_frames) * 100))
 
-		self.totalFrames.setText(str(frame_num))
-		self.CurrFrame.setText(str(total_frames))
+		self.totalFrames.setText(str(total_frames))
+		self.CurrFrame.setText(str(frame_num))
 
 
 	def update_started(self):
@@ -596,9 +596,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.ImgStatus.setStyleSheet('Color: green;Font-Size:20pt;')
 
 		if self.doImg:
-			self.totalFrames.setText('0')
+			self.totalFrames.setText(str(self.noff + (self.nimtr * self.ntr)))
 			self.slash.setText('/')
-			self.CurrFrame.setText(str(self.noff + (self.nimtr * self.ntr)))
+			self.CurrFrame.setText('0')
 		else:
 			self.totalFrames.setText('')
 			self.slash.setText('')
