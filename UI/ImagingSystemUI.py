@@ -52,6 +52,8 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.UseImgCheck.clicked.connect(self.img_selection_toggle)
 		self.useLEDCheck = self.findChild(QtWidgets.QCheckBox, 'useLED')
 		self.useLEDCheck.clicked.connect(self.led_selection_toggle)
+		self.useStimCheck = self.findChild(QtWidgets.QCheckBox, 'UseStim')
+		self.useStimCheck.clicked.connect(self.stim_selection_toggle)
 		self.blinkOnShowLive = self.findChild(QtWidgets.QCheckBox, 'blinkOnShowLive')
 		self.blinkOnShowLive.clicked.connect(self.blink_live_toggle)
 		self.waitTrig = self.findChild(QtWidgets.QCheckBox, 'waitTrig')
@@ -100,6 +102,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		# Group Boxes
 		self.ExpInputGroup = self.findChild(QtWidgets.QGroupBox, 'ExpInputGroup')
 		self.ExpInfoGroup = self.findChild(QtWidgets.QGroupBox, 'ExpInfoGroup')
+		self.stimGroup = self.findChild(QtWidgets.QGroupBox, 'stimGroup')
 		self.ChSel = self.findChild(QtWidgets.QGroupBox, 'ChSel')
 		self.ImgParam = self.findChild(QtWidgets.QGroupBox, 'ImgParam')
 		self.LEDGroup = self.findChild(QtWidgets.QGroupBox, 'LEDGroup')
@@ -112,6 +115,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		# Experiment Setup Variables
 		self.doImg = True
 		self.doLED = False
+		self.doStim = True
 		self.actShowLive = False
 		self.waitForTrig = False
 
@@ -280,16 +284,30 @@ class ImagingSystem(QtWidgets.QMainWindow):
 	## Button Click Functions
 	###############################################################################################
 
-	# For Do Stimulation Checkbox
+	# For Do Imaging Checkbox
 	def img_selection_toggle(self):
 		if self.UseImgCheck.isChecked():
 			self.doImg = True
 			self.ImgParam.setEnabled(True)
 			self.LenGroup.setEnabled(False)
+			self.useStimCheck.setEnabled(True)
 		else:
 			self.doImg = False
 			self.ImgParam.setEnabled(False)
 			self.LenGroup.setEnabled(True)
+			self.useStimCheck.setChecked(True)
+			self.useStimCheck.setEnabled(False)
+
+	# For Do Stimulation Checkbox
+	def stim_selection_toggle(self):
+		if self.useStimCheck.isChecked():
+			self.doStim = True
+			self.ChSel.setEnabled(True)
+			self.stimGroup.setEnabled(True)
+		else:
+			self.doStim = False
+			self.ChSel.setEnabled(False)
+			self.stimGroup.setEnabled(False)
 
 	# For Use LED Checkbox
 	def led_selection_toggle(self):
@@ -430,27 +448,28 @@ class ImagingSystem(QtWidgets.QMainWindow):
 				self.inputErrorLabel.setText('Error: Num Trials must be int.')
 				return
 
-		# Check to make sure Stimulation paramters are integers
-		if self.durationBox.text().isnumeric():
-			self.stim_dur = int(self.durationBox.text())
-		else:
-			self.inputErrorLabel.setText('Error: duration must be int.')
-			return
+		if self.doStim:
+			# Check to make sure Stimulation paramters are integers
+			if self.durationBox.text().isnumeric():
+				self.stim_dur = int(self.durationBox.text())
+			else:
+				self.inputErrorLabel.setText('Error: duration must be int.')
+				return
 
-		if self.freqBox.text().isnumeric():
-			self.stim_freq = int(self.freqBox.text())
-		else:
-			self.inputErrorLabel.setText('Error: frequency must be int.')
-			return
+			if self.freqBox.text().isnumeric():
+				self.stim_freq = int(self.freqBox.text())
+			else:
+				self.inputErrorLabel.setText('Error: frequency must be int.')
+				return
 
-		if self.pwBox.text().isnumeric():
-			self.stim_pw = int(self.pwBox.text())
-		else:
-			self.inputErrorLabel.setText('Error: pulse width must be int.')
-			return
+			if self.pwBox.text().isnumeric():
+				self.stim_pw = int(self.pwBox.text())
+			else:
+				self.inputErrorLabel.setText('Error: pulse width must be int.')
+				return
 
-		self.stimToINV = self.laserRadioButton.isChecked()
-		self.stimToMaster8 = self.master8RadioButton.isChecked()
+			self.stimToINV = self.laserRadioButton.isChecked()
+			self.stimToMaster8 = self.master8RadioButton.isChecked()
 
 		# Check to make sure LED inputs are correct
 		if self.doLED:

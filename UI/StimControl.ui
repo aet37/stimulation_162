@@ -515,7 +515,7 @@ color rgb(255, 2, 21)</string>
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>10</y>
+         <y>30</y>
          <width>131</width>
          <height>20</height>
         </rect>
@@ -876,7 +876,7 @@ color rgb(255, 2, 21)</string>
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>30</y>
+         <y>50</y>
          <width>251</width>
          <height>151</height>
         </rect>
@@ -1078,8 +1078,8 @@ color rgb(255, 2, 21)</string>
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>350</x>
-         <y>20</y>
+         <x>340</x>
+         <y>0</y>
          <width>201</width>
          <height>31</height>
         </rect>
@@ -1098,7 +1098,7 @@ color rgb(255, 2, 21)</string>
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>190</y>
+         <y>200</y>
          <width>251</width>
          <height>141</height>
         </rect>
@@ -1258,6 +1258,54 @@ font: 20pt;</string>
        </property>
        <property name="text">
         <string/>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="UseStim">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>50</y>
+         <width>201</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Use Stimulation</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>690</x>
+         <y>0</y>
+         <width>201</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 20pt;</string>
+       </property>
+       <property name="text">
+        <string>LED Control</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>0</y>
+         <width>201</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 20pt;</string>
+       </property>
+       <property name="text">
+        <string>Experiment Time</string>
        </property>
       </widget>
      </widget>
