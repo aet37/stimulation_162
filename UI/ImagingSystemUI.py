@@ -68,7 +68,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		# Radio Buttons
 		self.master8RadioButton = self.findChild(QtWidgets.QRadioButton, 'master8RadioButton')
 		self.laserRadioButton = self.findChild(QtWidgets.QRadioButton, 'laserRadioButton')
-		self.master8RadioButton = self.findChild(QtWidgets.QRadioButton, 'NormChRadioB')
+		self.NormChRadioButton = self.findChild(QtWidgets.QRadioButton, 'NormChRadioB')
 
 		# Labels
 		self.nimsReport = self.findChild(QtWidgets.QLabel, 'nimsReport')
