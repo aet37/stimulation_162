@@ -74,13 +74,17 @@ class stimControlNoWait(QObject):
 		if self.do_wait:
 			while True:
 
-				GPIO.wait_for_edge(TRIGGER_IN_PIN, GPIO.RISING, timeout=25)
+				edge = GPIO.wait_for_edge(TRIGGER_IN_PIN, GPIO.RISING, timeout=25)
+
+				if edge is not None:
+					self.exp_started.emit()
+					break
 
 				if self.ctrl.is_set():
 					self.force_stopped.emit()
 					return
-
-		self.exp_started.emit()
+		else:
+			self.exp_started.emit()
 
 		# Wait toff time
 		for i in range(self.toff):
