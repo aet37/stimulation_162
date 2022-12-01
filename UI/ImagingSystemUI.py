@@ -229,7 +229,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		# Define worker classes
 		self.img_worker = frameCount(self.noff, self.nimtr, self.ntr, exp_stopped, frame_sim)
 		if self.doStim:
-		self.stim_worker = stimControl(self.stim_dur, self.stim_freq, self.stim_pw, self.stimToMaster8, self.stimToINV, exp_stopped)
+			self.stim_worker = stimControl(self.stim_dur, self.stim_freq, self.stim_pw, self.stimToMaster8, self.stimToINV, exp_stopped)
 		if self.doLED:
 			self.led_worker = LEDControl(self.num_led, [self.use_led1, self.use_led2, self.use_led3, self.use_ledf], [self.led1_period, self.led2_period, self.led3_period, self.ledf_period], exp_stopped)
 
