@@ -324,7 +324,7 @@ color rgb(255, 2, 21)</string>
         </rect>
        </property>
        <property name="text">
-        <string>/</string>
+        <string/>
        </property>
       </widget>
       <widget class="QLabel" name="totalFrames">

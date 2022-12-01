@@ -177,6 +177,10 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		total_frames = self.noff + (self.nimtr * self.ntr)
 		self.expProgress.setValue(int((frame_num / total_frames) * 100))
 
+		self.totalFrames.setText(str(frame_num))
+		self.CurrFrame.setText(str(total_frames))
+
+
 	def update_started(self):
 		# Edit UI start
 		self.ImgStatus.setText('Experiment Started.')
@@ -270,16 +274,16 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		if self.doStim:
 			self.img_worker.finished.connect(self.stim_thread.exit)
 			self.img_worker.force_stopped.connect(self.stim_thread.exit)
-			self.img_worker.finished.connect(self.stim_thread.quit)
-			self.img_worker.force_stopped.connect(self.stim_thread.quit)
+			self.img_worker.finished.connect(self.stim_thread.terminate)
+			self.img_worker.force_stopped.connect(self.stim_thread.terminate)
 			self.img_worker.finished.connect(self.stim_worker.deleteLater)
 			self.img_worker.finished.connect(self.stim_thread.deleteLater)
 
 		if self.doLED:
 			self.img_worker.finished.connect(self.led_thread.exit)
 			self.img_worker.force_stopped.connect(self.led_thread.exit)
-			self.img_worker.finished.connect(self.led_thread.quit)
-			self.img_worker.force_stopped.connect(self.led_thread.quit)
+			self.img_worker.finished.connect(self.led_thread.terminate)
+			self.img_worker.force_stopped.connect(self.led_thread.terminate)
 			self.img_worker.finished.connect(self.led_worker.deleteLater)
 			self.img_worker.finished.connect(self.led_thread.deleteLater)
 
