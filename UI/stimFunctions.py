@@ -95,7 +95,6 @@ class stimControlNoWait(QObject):
 			self.trial_number.emit(i + 1)
 
 			if self.toM8:
-				print('M8')
 
 				# Send UI stimulation signal
 				self.stim_on.emit()
@@ -128,7 +127,6 @@ class stimControlNoWait(QObject):
 
 			# Inverted stimulation channel
 			elif self.toINV:
-				print('INV')
 
 				# Send UI stimulation signal
 				self.stim_on.emit()
@@ -136,7 +134,6 @@ class stimControlNoWait(QObject):
 				# DC Case 1
 				if self.freq == 0:
 					GPIO.output(TRIGGER_INV_PIN, 0)
-					print('DC INV 1')
 
 					# Sleep for the remainder of the stimulation time (while checking for done signal)
 					for a in range(self.dur):
@@ -153,7 +150,6 @@ class stimControlNoWait(QObject):
 				# DC Case 2
 				elif 1/self.freq == self.pw/1000:
 					GPIO.output(TRIGGER_INV_PIN, 0)
-					print('DC INV 2')
 
 					# Sleep for the remainder of the stimulation time (while checking for done signal)
 					for a in range(self.dur):
@@ -171,11 +167,9 @@ class stimControlNoWait(QObject):
 					for j in range(self.dur):
 						for k in range(self.freq):
 							GPIO.output(TRIGGER_INV_PIN, 0)
-							print('Down INV N')
-							time.sleep(pulse_width/1000)
+							time.sleep(self.pw/1000)
 							GPIO.output(TRIGGER_INV_PIN, 1)
-							print('UP INV N')
-							time.sleep((1/frequency) - (pulse_width/1000))
+							time.sleep((1/self.freq) - (self.pw/1000))
 
 							# Check if trial was stopped
 							if self.ctrl.is_set():
@@ -194,7 +188,6 @@ class stimControlNoWait(QObject):
 							return
 
 			else:
-				print('NORM')
 				# Send UI stimulation signal
 				self.stim_on.emit()
 
@@ -234,9 +227,9 @@ class stimControlNoWait(QObject):
 					for j in range(self.dur):
 						for k in range(self.freq):
 							GPIO.output(TRIGGER_NORM_PIN, 1)
-							time.sleep(pulse_width/1000)
+							time.sleep(self.pw/1000)
 							GPIO.output(TRIGGER_NORM_PIN, 0)
-							time.sleep((1/frequency) - (pulse_width/1000))
+							time.sleep((1/self.freq) - (self.pw/1000))
 
 							# Check if trial was stopped
 							if self.ctrl.is_set():
@@ -345,9 +338,9 @@ class stimControl(QObject):
 				for j in range(self.dur):
 					for k in range(self.freq):
 						GPIO.output(TRIGGER_INV_PIN, 0)
-						time.sleep(pulse_width/1000)
+						time.sleep(self.pw/1000)
 						GPIO.output(TRIGGER_INV_PIN, 1)
-						time.sleep((1/frequency) - (pulse_width/1000))
+						time.sleep((1/self.freq) - (self.pw/1000))
 
 						# Check if trial was stopped
 						if self.ctrl.is_set():
@@ -393,9 +386,9 @@ class stimControl(QObject):
 				for j in range(self.dur):
 					for k in range(self.freq):
 						GPIO.output(TRIGGER_NORM_PIN, 1)
-						time.sleep(pulse_width/1000)
+						time.sleep(self.pw/1000)
 						GPIO.output(TRIGGER_NORM_PIN, 0)
-						time.sleep((1/frequency) - (pulse_width/1000))
+						time.sleep((1/self.freq) - (self.pw/1000))
 
 						# Check if trial was stopped
 						if self.ctrl.is_set():
