@@ -472,7 +472,7 @@ color rgb(255, 2, 21)</string>
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QRadioButton" name="laserRadioButton_2">
+       <widget class="QRadioButton" name="NormChRadioB">
         <property name="geometry">
          <rect>
           <x>10</x>
