@@ -121,6 +121,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.doStim = True
 		self.actShowLive = False
 		self.waitForTrig = False
+		self.exp_running = False
 
 		self.stimToINV = False
 		self.stimToMaster8 = False
@@ -398,6 +399,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 	# For Start Experiment Button
 	def start_experiment(self):
 
+		# Tell system that experiment is running
+		self.exp_running = True
+
 		# Clear errors
 		self.inputErrorLabel.setText('')
 
@@ -614,6 +618,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 	# For Stop Experiment Button
 	def stop_experiment(self):
 
+		# Tell system that experiment is not running
+		self.exp_running = False
+
 		# Set the stop flag
 		exp_stopped.set()
 
@@ -663,6 +670,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.stopButton.setEnabled(False)
 
 	def exp_finished(self):
+
+		# Tell system that experiment is not running
+		self.exp_running = False
 
 		# Set the stop flag
 		exp_stopped.set()
