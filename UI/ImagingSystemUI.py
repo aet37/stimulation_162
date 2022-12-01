@@ -220,20 +220,23 @@ class ImagingSystem(QtWidgets.QMainWindow):
 	'''
 	def start_stim(self):
 		# Define Thread Objects
-		self.stim_thread = QThread()
 		self.img_thread = QThread()
+		if self.doStim:
+			self.stim_thread = QThread()
 		if self.doLED:
 			self.led_thread = QThread()
 
 		# Define worker classes
-		self.stim_worker = stimControl(self.stim_dur, self.stim_freq, self.stim_pw, self.stimToMaster8, self.stimToINV, exp_stopped)
 		self.img_worker = frameCount(self.noff, self.nimtr, self.ntr, exp_stopped, frame_sim)
+		if self.doStim:
+		self.stim_worker = stimControl(self.stim_dur, self.stim_freq, self.stim_pw, self.stimToMaster8, self.stimToINV, exp_stopped)
 		if self.doLED:
 			self.led_worker = LEDControl(self.num_led, [self.use_led1, self.use_led2, self.use_led3, self.use_ledf], [self.led1_period, self.led2_period, self.led3_period, self.ledf_period], exp_stopped)
 
 		# Move tasks to their threads
-		self.stim_worker.moveToThread(self.stim_thread)
 		self.img_worker.moveToThread(self.img_thread)
+		if self.doStim:
+			self.stim_worker.moveToThread(self.stim_thread)
 		if self.doLED:
 			self.led_worker.moveToThread(self.led_thread)
 
@@ -241,30 +244,33 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.img_thread.started.connect(self.img_worker.run)
 
 		# Functionality signals
-		self.img_worker.stim_now.connect(self.stim_worker.run)
+		if self.doStim:
+			self.img_worker.stim_now.connect(self.stim_worker.run)
 		if self.doLED:
 			self.img_worker.frame_number.connect(self.led_worker.run)
 
 		#UI Update signals
 		self.img_worker.exp_started.connect(self.update_started)
-		self.stim_worker.stim_on.connect(self.update_stim_on)
-		self.stim_worker.stim_off.connect(self.update_stim_off)
-		self.stim_worker.trial_number.connect(self.update_tr_num)
 		self.img_worker.frame_number.connect(self.update_prog_bar)
+		if self.doStim:
+			self.stim_worker.stim_on.connect(self.update_stim_on)
+			self.stim_worker.stim_off.connect(self.update_stim_off)
+			self.stim_worker.trial_number.connect(self.update_tr_num)
 
 		# Quitting Signals
-		self.img_worker.finished.connect(self.stim_thread.exit)
-		self.img_worker.force_stopped.connect(self.stim_thread.exit)
-		self.img_worker.finished.connect(self.stim_thread.quit)
-		self.img_worker.force_stopped.connect(self.stim_thread.quit)
-		self.img_worker.finished.connect(self.stim_worker.deleteLater)
-		self.img_worker.finished.connect(self.stim_thread.deleteLater)
-
 		self.img_worker.finished.connect(self.img_thread.quit)
 		self.img_worker.finished.connect(self.exp_finished)
 		self.img_worker.force_stopped.connect(self.img_thread.quit)
 		self.img_worker.finished.connect(self.img_worker.deleteLater)
 		self.img_worker.finished.connect(self.img_thread.deleteLater)
+
+		if self.doStim:
+			self.img_worker.finished.connect(self.stim_thread.exit)
+			self.img_worker.force_stopped.connect(self.stim_thread.exit)
+			self.img_worker.finished.connect(self.stim_thread.quit)
+			self.img_worker.force_stopped.connect(self.stim_thread.quit)
+			self.img_worker.finished.connect(self.stim_worker.deleteLater)
+			self.img_worker.finished.connect(self.stim_thread.deleteLater)
 
 		if self.doLED:
 			self.img_worker.finished.connect(self.led_thread.exit)
@@ -275,8 +281,9 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.img_worker.finished.connect(self.led_thread.deleteLater)
 
 		# Start the Threads
-		self.stim_thread.start()
 		self.img_thread.start()
+		if self.doStim:
+			self.stim_thread.start()
 		if self.doLED:
 			self.led_thread.start()
 
