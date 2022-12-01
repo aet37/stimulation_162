@@ -251,7 +251,6 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		# Quitting Signals
 		self.img_worker.finished.connect(self.stim_thread.exit)
 		self.img_worker.force_stopped.connect(self.stim_thread.exit)
-		# Try terminate
 		self.img_worker.finished.connect(self.stim_thread.terminate)
 		self.img_worker.force_stopped.connect(self.stim_thread.terminate)
 
@@ -265,8 +264,11 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.img_worker.finished.connect(self.img_thread.deleteLater)
 
 		if self.doLED:
-			self.img_worker.finished.connect(self.led_thread.quit)
-			self.img_worker.force_stopped.connect(self.led_thread.quit)
+			self.img_worker.finished.connect(self.led_thread.exit)
+			self.img_worker.force_stopped.connect(self.led_thread.exit)
+			self.img_worker.finished.connect(self.stim_thread.terminate)
+			self.img_worker.force_stopped.connect(self.stim_thread.terminate)
+
 			self.img_worker.finished.connect(self.led_worker.deleteLater)
 			self.img_worker.finished.connect(self.led_thread.deleteLater)
 
