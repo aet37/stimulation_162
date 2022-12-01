@@ -74,7 +74,7 @@ class stimControlNoWait(QObject):
 		if self.do_wait:
 			while True:
 
-				edge = GPIO.wait_for_edge(TRIGGER_IN_PIN, GPIO.RISING, timeout=25)
+				edge = GPIO.wait_for_edge(TRIGGER_IN_PIN, GPIO.RISING, timeout=800)
 
 				if edge is not None:
 					self.exp_started.emit()
@@ -443,7 +443,7 @@ class frameCount(QObject):
 				# Continually check for start signal (simulated frame)
 				while True:
 
-					edge = GPIO.wait_for_edge(TRIGGER_IN_PIN, GPIO.RISING, timeout=25)
+					edge = GPIO.wait_for_edge(TRIGGER_IN_PIN, GPIO.RISING, timeout=800)
 
 					if edge is not None:
 						self.exp_started.emit()
@@ -462,7 +462,7 @@ class frameCount(QObject):
 				while True:
 
 					# Wait for next frame
-					edge = GPIO.wait_for_edge(TRIGGER_IN_PIN, GPIO.RISING, timeout=25)
+					edge = GPIO.wait_for_edge(TRIGGER_IN_PIN, GPIO.RISING, timeout=800)
 
 					if edge is not None:
 
