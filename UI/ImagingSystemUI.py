@@ -176,6 +176,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 
 	# Show progress bar update if doing imaging
 	def update_prog_bar(self, frame_num):
+		print('Frame, ' frame_num)
 		if self.exp_running:
 			total_frames = self.noff + (self.nimtr * self.ntr)
 			self.expProgress.setValue(int((frame_num / total_frames) * 100))

@@ -431,8 +431,10 @@ class frameCount(QObject):
 		for i in range(1, self.ntr + 1):
 			self.stim_frames.append(self.noff + self.nimtr * (i - 1) + 1)
 
-	def run(self):
+		print(self.stim_frames)
 
+	def run(self):
+		print('  Stim Now')
 		# Check if frame has not been active for a certain number of cycles
 		inactive_fr = 0
 
