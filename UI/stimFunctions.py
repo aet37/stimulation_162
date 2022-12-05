@@ -441,8 +441,6 @@ class frameCount(QObject):
 			# Decision point if experiment started or not
 			if not self.started:
 
-				print('self.started')
-
 				# Continually check for start signal (simulated frame)
 				while True:
 

@@ -210,12 +210,12 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.img_thread.deleteLater()
 
 		if self.doStim:
-			self.stim_thread.terminate()
+			#self.stim_thread.terminate()
 			self.stim_worker.deleteLater()
 			self.stim_thread.deleteLater()
 
 		if self.doLED:
-			self.led_thread.terminate()
+			#self.led_thread.terminate()
 			self.led_worker.deleteLater()
 			self.led_thread.deleteLater()
 
