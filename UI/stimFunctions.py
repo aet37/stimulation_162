@@ -550,7 +550,7 @@ class LEDControl(QObject):
 
 		# Turn on test pin every time frame
 		GPIO.output(TESTPIN, 1)
-		time.sleep(0.1)
+		time.sleep(0.02)
 		GPIO.output(TESTPIN, 0)
 
 		# Turn on the next LED in line
