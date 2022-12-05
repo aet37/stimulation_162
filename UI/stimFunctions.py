@@ -449,6 +449,8 @@ class frameCount(QObject):
 			# Decision point if experiment started or not
 			if not self.started:
 
+				print('self.started')
+
 				# Continually check for start signal (simulated frame)
 				while True:
 
@@ -494,9 +496,14 @@ class frameCount(QObject):
 						self.force_stopped.emit()
 						self.quit()
 						return
-
+					'''
 					# Check if this is the last frame
 					if self.curent_frame == self.noff + (self.nimtr * self.ntr) or (inactive_fr >= 3):
+						self.finished.emit()
+						return
+					'''
+					# Check if this is the last frame
+					if inactive_fr >= 3:
 						self.finished.emit()
 						return
 

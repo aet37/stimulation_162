@@ -198,6 +198,26 @@ class ImagingSystem(QtWidgets.QMainWindow):
 	'''
 	def destroy_all_threads(self):
 
+		self.img_thread.exit()
+		if self.doStim:
+			self.stim_thread.exit()
+		if self.doLED:
+			self.led_thread.exit()
+
+		time.sleep(0.2)
+
+		self.img_worker.deleteLater()
+		self.img_thread.deleteLater()
+
+		if self.doStim:
+			self.stim_thread.terminate()
+			self.stim_worker.deleteLater()
+			self.stim_thread.deleteLater()
+
+		if self.doLED:
+			self.led_thread.terminate()
+			self.led_worker.deleteLater()
+			self.led_thread.deleteLater()
 
 
 	'''
@@ -275,13 +295,14 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.stim_worker.trial_number.connect(self.update_tr_num)
 
 		# Quitting Signals
-
 		self.img_worker.finished.connect(self.destroy_all_threads)
 		self.img_worker.force_stopped.connect(self.destroy_all_threads)
-
-
-		self.img_worker.finished.connect(self.img_thread.quit)
 		self.img_worker.finished.connect(self.exp_finished)
+
+
+
+		'''
+		self.img_worker.finished.connect(self.img_thread.quit)
 		self.img_worker.force_stopped.connect(self.img_thread.quit)
 		self.img_worker.finished.connect(self.img_worker.deleteLater)
 		self.img_worker.finished.connect(self.img_thread.deleteLater)
@@ -301,6 +322,7 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.img_worker.force_stopped.connect(self.led_thread.terminate)
 			self.img_worker.finished.connect(self.led_worker.deleteLater)
 			self.img_worker.finished.connect(self.led_thread.deleteLater)
+		'''
 
 		# Start the Threads
 		self.img_thread.start()
