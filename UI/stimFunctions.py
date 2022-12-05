@@ -292,13 +292,11 @@ class stimControl(QObject):
 			time.sleep(0.75)
 
 			if self.exp_stopped.is_set():
-				self.quit()
 				return
 
 			for i in range(self.dur - 1):
 				time.sleep(1)
 				if self.exp_stopped.is_set():
-					self.quit()
 					return
 
 			self.stim_off.emit()
@@ -315,7 +313,6 @@ class stimControl(QObject):
 				for i in range(self.dur):
 					time.sleep(1)
 					if self.exp_stopped.is_set():
-						self.quit()
 						return
 
 				GPIO.output(TRIGGER_INV_PIN, 1)
@@ -331,7 +328,6 @@ class stimControl(QObject):
 				for i in range(self.dur):
 					time.sleep(1)
 					if self.exp_stopped.is_set():
-						self.quit()
 						return
 
 				GPIO.output(TRIGGER_INV_PIN, 1)
@@ -350,7 +346,6 @@ class stimControl(QObject):
 
 						# Check if trial was stopped
 						if self.exp_stopped.is_set():
-							self.quit()
 							return
 
 			# Send UI stimulation offsignal
@@ -368,7 +363,6 @@ class stimControl(QObject):
 				for i in range(self.dur):
 					time.sleep(1)
 					if self.exp_stopped.is_set():
-						self.quit()
 						return
 
 				GPIO.output(TRIGGER_NORM_PIN, 0)
@@ -384,7 +378,6 @@ class stimControl(QObject):
 				for i in range(self.dur):
 					time.sleep(1)
 					if self.exp_stopped.is_set():
-						self.quit()
 						return
 
 				GPIO.output(TRIGGER_NORM_PIN, 0)
@@ -402,7 +395,6 @@ class stimControl(QObject):
 
 						# Check if trial was stopped
 						if self.exp_stopped.is_set():
-							self.quit()
 							return
 
 			# Send UI stimulation offsignal
@@ -466,7 +458,6 @@ class frameCount(QObject):
 					# Check if stop experiment button has been pressed
 					if self.exp_stopped.is_set():
 						self.force_stopped.emit()
-						self.quit()
 						return
 
 			else:
@@ -494,7 +485,6 @@ class frameCount(QObject):
 					# Check if stop experiment button has been pressed
 					if self.exp_stopped.is_set():
 						self.force_stopped.emit()
-						self.quit()
 						return
 					'''
 					# Check if this is the last frame
@@ -545,5 +535,4 @@ class LEDControl(QObject):
 			self.current_led = 0
 
 		if self.exp_stopped.is_set():
-			self.quit()
 			return
