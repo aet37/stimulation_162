@@ -433,7 +433,7 @@ class frameCount(QObject):
 		for i in range(1, self.ntr + 1):
 			self.stim_frames.append(self.noff + self.nimtr * (i - 1) + 1)
 
-		print(stim_frames)
+		print(self.stim_frames)
 
 	def run(self):
 
