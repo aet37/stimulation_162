@@ -194,6 +194,13 @@ class ImagingSystem(QtWidgets.QMainWindow):
 	###############################################################################################
 
 	'''
+	Function to destroy all threads due to imaging stopped
+	'''
+	def destroy_all_threads(self):
+
+
+
+	'''
 	Function to start the stimulus and create the 2 threads when not waiting for camera triggers
 	'''
 	def start_stim_notrig(self):
@@ -268,6 +275,11 @@ class ImagingSystem(QtWidgets.QMainWindow):
 			self.stim_worker.trial_number.connect(self.update_tr_num)
 
 		# Quitting Signals
+
+		self.img_worker.finished.connect(self.destroy_all_threads)
+		self.img_worker.force_stopped.connect(self.destroy_all_threads)
+
+
 		self.img_worker.finished.connect(self.img_thread.quit)
 		self.img_worker.finished.connect(self.exp_finished)
 		self.img_worker.force_stopped.connect(self.img_thread.quit)
