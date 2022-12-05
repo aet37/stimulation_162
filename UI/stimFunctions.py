@@ -510,14 +510,9 @@ class frameCount(QObject):
 					if self.exp_stopped.is_set():
 						self.force_stopped.emit()
 						return
-					'''
+
 					# Check if this is the last frame
 					if self.curent_frame == self.noff + (self.nimtr * self.ntr) or (inactive_fr >= 3):
-						self.finished.emit()
-						return
-					'''
-					# Check if this is the last frame
-					if inactive_fr >= 3:
 						self.finished.emit()
 						return
 
@@ -545,11 +540,6 @@ class LEDControl(QObject):
 
 
 	def run(self, frame_num):
-
-		# Turn on test pin every time frame
-		GPIO.output(TESTPIN, 1)
-		time.sleep(0.02)
-		GPIO.output(TESTPIN, 0)
 
 		# Turn on the next LED in line
 		if frame_num != 1:
