@@ -302,8 +302,6 @@ class stimControl(QObject):
 
 	def run(self):
 
-		print('  Stim Now')
-
 		self.tr_num += 1
 		self.trial_number.emit(self.tr_num)
 

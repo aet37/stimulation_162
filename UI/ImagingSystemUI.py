@@ -176,7 +176,6 @@ class ImagingSystem(QtWidgets.QMainWindow):
 
 	# Show progress bar update if doing imaging
 	def update_prog_bar(self, frame_num):
-		print('Frame, ', frame_num)
 		if self.exp_running:
 			total_frames = self.noff + (self.nimtr * self.ntr)
 			self.expProgress.setValue(int((frame_num / total_frames) * 100))
@@ -299,31 +298,6 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.img_worker.finished.connect(self.destroy_all_threads)
 		self.img_worker.force_stopped.connect(self.destroy_all_threads)
 		self.img_worker.finished.connect(self.exp_finished)
-
-
-
-		'''
-		self.img_worker.finished.connect(self.img_thread.quit)
-		self.img_worker.force_stopped.connect(self.img_thread.quit)
-		self.img_worker.finished.connect(self.img_worker.deleteLater)
-		self.img_worker.finished.connect(self.img_thread.deleteLater)
-
-		if self.doStim:
-			self.img_worker.finished.connect(self.stim_thread.exit)
-			self.img_worker.force_stopped.connect(self.stim_thread.exit)
-			self.img_worker.finished.connect(self.stim_thread.terminate)
-			self.img_worker.force_stopped.connect(self.stim_thread.terminate)
-			self.img_worker.finished.connect(self.stim_worker.deleteLater)
-			self.img_worker.finished.connect(self.stim_thread.deleteLater)
-
-		if self.doLED:
-			self.img_worker.finished.connect(self.led_thread.exit)
-			self.img_worker.force_stopped.connect(self.led_thread.exit)
-			self.img_worker.finished.connect(self.led_thread.terminate)
-			self.img_worker.force_stopped.connect(self.led_thread.terminate)
-			self.img_worker.finished.connect(self.led_worker.deleteLater)
-			self.img_worker.finished.connect(self.led_thread.deleteLater)
-		'''
 
 		# Start the Threads
 		self.img_thread.start()
