@@ -433,7 +433,12 @@ class frameCount(QObject):
 		for i in range(1, self.ntr + 1):
 			self.stim_frames.append(self.noff + self.nimtr * (i - 1) + 1)
 
+		print(stim_frames)
+
 	def run(self):
+
+		# Check if frame has not been active for a certain number of cycles
+		inactive_fr = 0
 
 		while True:
 
@@ -474,13 +479,18 @@ class frameCount(QObject):
 						if self.curent_frame in self.stim_frames:
 							self.stim_now.emit()
 
+						inactive_fr = 0
+
+					else:
+						inactive_fr += 1
+
 					# Check if stop experiment button has been pressed
 					if self.exp_stopped.is_set():
 						self.force_stopped.emit()
 						return
 
 					# Check if this is the last frame
-					if self.curent_frame == self.noff + (self.nimtr * self.ntr):
+					if self.curent_frame == self.noff + (self.nimtr * self.ntr) or (inactive_fr >= 3):
 						self.finished.emit()
 						return
 
