@@ -29,6 +29,29 @@ LED1_PIN = 21
 LED2_PIN = 23
 LED3_PIN = 29
 FLOUR_PIN = 31
+TESTPIN = 33
+
+# Function to setup GPIO
+def setup_gpio():
+	# Set up GPIO
+	GPIO.setwarnings(False)
+	GPIO.setmode(GPIO.BOARD)
+
+	# Set up trigger input GPIO
+	GPIO.setup(TRIGGER_IN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # internal pull down
+
+	# Set up output Stimulation pins
+	GPIO.setup(TRIGGER_INV_PIN, GPIO.OUT)
+	GPIO.setup(TRIGGER_NORM_PIN, GPIO.OUT)
+	GPIO.setup(TRIGGER_M8_PIN, GPIO.OUT)
+
+	# Set up output LED pins
+	GPIO.setup(LED1_PIN, GPIO.OUT)
+	GPIO.setup(LED2_PIN, GPIO.OUT)
+	GPIO.setup(LED3_PIN, GPIO.OUT)
+	GPIO.setup(FLOUR_PIN, GPIO.OUT)
+
+	GPIO.setup(TESTPIN, GPIO.OUT)
 
 
 # Function to set the default state of the pins
@@ -41,6 +64,8 @@ def initialize_gpio():
 	GPIO.output(LED2_PIN, 0)
 	GPIO.output(LED3_PIN, 0)
 	GPIO.output(FLOUR_PIN, 0)
+
+	GPIO.output(TESTPIN, 0)
 
 '''
 Class to control and run the stimulation (QThread object)
@@ -522,6 +547,12 @@ class LEDControl(QObject):
 
 
 	def run(self, frame_num):
+
+		# Turn on test pin every time frame
+		GPIO.output(TESTPIN, 1)
+		time.sleep(0.1)
+		GPIO.output(TESTPIN, 0)
+
 		# Turn on the next LED in line
 		if frame_num != 1:
 

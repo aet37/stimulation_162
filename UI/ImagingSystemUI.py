@@ -762,23 +762,8 @@ class ImagingSystem(QtWidgets.QMainWindow):
 		self.ExpInfoGroup.setEnabled(False)
 		self.stopButton.setEnabled(False)
 
-# Set up GPIO
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-
-# Set up trigger input GPIO
-GPIO.setup(TRIGGER_IN_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # internal pull down
-
-# Set up output Stimulation pins
-GPIO.setup(TRIGGER_INV_PIN, GPIO.OUT)
-GPIO.setup(TRIGGER_NORM_PIN, GPIO.OUT)
-GPIO.setup(TRIGGER_M8_PIN, GPIO.OUT)
-
-# Set up output LED pins
-GPIO.setup(LED1_PIN, GPIO.OUT)
-GPIO.setup(LED2_PIN, GPIO.OUT)
-GPIO.setup(LED3_PIN, GPIO.OUT)
-GPIO.setup(FLOUR_PIN, GPIO.OUT)
+# Setup the GPIOs to their pins
+setup_gpio()
 
 # Initialize Pins to all off
 initialize_gpio()
